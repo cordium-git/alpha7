@@ -1,0 +1,61 @@
+{
+  "cliente_id": "drogaria_santa_rita_olimpia",
+  "versao_config": 1,
+  "fonte_banco": {
+    "tipo": "ERP",
+    "host_env": "ERP_DB_HOST",
+    "porta": 5432,
+    "banco_env": "ERP_DB_NAME",
+    "schema_padrao": "public"
+  },
+  "jobs": [
+    {
+      "job_id": "erp_1_fetchMetadataByEans",
+      "nome": "fetchMetadataByEans",
+      "descricao": "Busca metadados de produtos (descricao, clas... lista de EANs para enriquecer dados de movimentacao de precos",
+      "sql": "WITH classific AS (SELECT DISTINCT ON (cp.produtoid) cp.produtoid, split_part(clas.caminho, ' > ', 2) AS classificacao2, split_part(clas.caminho, ' > ', 3) AS classificacao3 FROM classificacaoproduto cp INNER JOIN classificacao clas ON clas.id = cp.classificacaoid WHERE clas.caminho ILIKE '%PRINCIPAL%' ORDER BY cp.produtoid, clas.caminho) SELECT p.id AS produto_id, emb.id AS embalagem_id, emb.codigobarras::text AS ean, p.descricao, classific.classificacao2, classific.classificacao3 FROM produto p LEFT JOIN classific ON classific.produtoid = p.id LEFT JOIN embalagem emb ON emb.produtoid = p.id WHERE emb.codigobarras::text = ANY($1::text[])",
+      "output_file": "fetchMetadataByEans_{YYYYMMDD}.csv",
+      "ativo": true
+    },
+    {
+      "job_id": "erp_2_getProductCatalog",
+      "nome": "getProductCatalog",
+      "descricao": "Busca catalogo de produtos com filtros por descricao, EAN e classificacoes para pesquisa de produtos",
+      "sql": "WITH classific AS (SELECT DISTINCT ON (cp.produtoid) cp.produtoid, split_part(clas.caminho, ' > ', 2) AS classificacao2, split_part(clas.caminho, ' > ', 3) AS classificacao3 FROM classificacaoproduto cp INNER JOIN classificacao clas ON clas.id = cp.classificacaoid WHERE clas.caminho ILIKE '%PRINCIPAL%' ORDER BY cp.produtoid, clas.caminho) SELECT p.id AS produto_id, emb.id AS embalagem_id, emb.codigobarras::text AS ean, p.descricao, classific.classificacao2, classific.classificacao3 FROM produto p LEFT JOIN classific ON classific.produtoid = p.id LEFT JOIN embalagem emb ON emb.produtoid = p.id WHERE (p.descricao ILIKE '%$searchTerm%' OR emb.codigobarras::text ILIKE '%$searchTerm%') AND (classific.classificacao2 IN ($class2) OR TRUE) AND (classific.classificacao3 IN ($class3) OR TRUE) ORDER BY p.descricao LIMIT $limit",
+      "output_file": "getProductCatalog_{YYYYMMDD}.csv",
+      "ativo": true
+    },
+    {
+      "job_id": "erp_5_fetchERPData_ProductsWithCosts",
+      "nome": "fetchERPData_ProductsWithCosts",
+      "descricao": "Busca dados completos de produtos do ERP incluin...oque e ultima venda para geracao de candidatos de precificacao",
+      "sql": "WITH vendas AS (SELECT ven.id AS venda_id, itv.id AS itemvenda_id, itv.quantidade, itv.valorunitario, itv.valortotal, itv.embalagemid, ven.unidadenegocioid, ven.datahoraabertura::date AS data_venda FROM itemvenda itv JOIN venda ven ON ven.id = itv.vendaid WHERE ven.status = 'F' AND ven.datahoraabertura >= CURRENT_DATE - INTERVAL '180 days'), estoque AS (SELECT mov.produtoid, mov.embalagemid, SUM(CASE WHEN mov.tipomovimentacao = 'E' THEN mov.quantidade ELSE -mov.quantidade END) AS saldo_180d FROM movimentacaoestoque mov WHERE mov.datahora >= CURRENT_DATE - INTERVAL '180 days' GROUP BY mov.produtoid, mov.embalagemid), custo_atual AS (SELECT emb.id AS embalagemid, emb.produtoid, emb.codigobarras::text AS ean, emb.fatorconversao, emb.precovenda, emb.precopromocional, emb.status AS status_embalagem, p.descricao AS descricao_produto, p.status AS status_produto, est.saldo_180d FROM embalagem emb JOIN produto p ON p.id = emb.produtoid LEFT JOIN estoque est ON est.embalagemid = emb.id), ultima_venda AS (SELECT vendas.embalagemid, MAX(vendas.data_venda) AS data_ultima_venda FROM vendas GROUP BY vendas.embalagemid) SELECT c.embalagemid, c.produtoid, c.ean, c.fatorconversao, c.precovenda, c.precopromocional, c.status_embalagem, c.descricao_produto, c.status_produto, COALESCE(c.saldo_180d, 0) AS saldo_180d, uv.data_ultima_venda FROM custo_atual c LEFT JOIN ultima_venda uv ON uv.embalagemid = c.embalagemid WHERE c.status_produto = 'A'",
+      "output_file": "fetchERPData_ProductsWithCosts_{YYYYMMDD}.csv",
+      "ativo": true
+    },
+    {
+      "job_id": "erp_6_getClassifications",
+      "nome": "getClassifications",
+      "descricao": "Lista classificacoes de produtos em hierarquia para filtros por categoria",
+      "sql": "SELECT id, caminho FROM classificacao WHERE caminho ILIKE '%PRINCIPAL%' ORDER BY caminho",
+      "output_file": "getClassifications_{YYYYMMDD}.csv",
+      "ativo": true
+    },
+    {
+      "job_id": "erp_7_listCadernos",
+      "nome": "listCadernos",
+      "descricao": "Lista cadernos de ofertas ativos e nao expirados para selecao de destino de publicacao de precos",
+      "sql": "SELECT id, nome, datahorafinal FROM cadernooferta WHERE status = 'A' AND (datahorafinal >= CURRENT_DATE OR datahorafinal IS NULL) AND (nome ILIKE '%$searchTerm%' OR TRUE) ORDER BY nome LIMIT $limit",
+      "output_file": "listCadernos_{YYYYMMDD}.csv",
+      "ativo": true
+    },
+    {
+      "job_id": "erp_8_countCadernos",
+      "nome": "countCadernos",
+      "descricao": "Conta total de cadernos de ofertas ativos para paginacao",
+      "sql": "SELECT COUNT(*)::int as count FROM cadernooferta WHERE status = 'A' AND (datahorafinal >= CURRENT_DATE OR datahorafinal IS NULL) AND (nome ILIKE '%$searchTerm%' OR TRUE)",
+      "output_file": "countCadernos_{YYYYMMDD}.csv",
+      "ativo": true
+    }
+  ]
+}
