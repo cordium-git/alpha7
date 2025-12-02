@@ -1,6 +1,13 @@
 {
-  "cliente_id": "drogaria_santa_rita_olimpia",
+  "cliente_id": "erp_pricinghub_full",
   "versao_config": 1,
+  "metadata": {
+    "projeto": "Pricing Hub",
+    "descricao": "Queries SELECT * para todas as tabelas ERP utilizadas no projeto",
+    "data_extracao_padrao": "2025-12-02",
+    "total_tabelas": 16,
+    "filtro_fato": "CURRENT_DATE - 365 dias"
+  },
   "fonte_banco": {
     "tipo": "ERP",
     "host_env": "ERP_DB_HOST",
@@ -10,43 +17,153 @@
   },
   "jobs": [
     {
-      "job_id": "erp_1_fetchMetadataByEans",
-      "nome": "fetchMetadataByEans",
-      "descricao": "Busca metadados de produtos (descricao, clas... lista de EANs para enriquecer dados de movimentacao de precos",
-      "sql": "WITH classific AS (SELECT DISTINCT ON (cp.produtoid) cp.produtoid, split_part(clas.caminho, ' > ', 2) AS classificacao2, split_part(clas.caminho, ' > ', 3) AS classificacao3 FROM classificacaoproduto cp INNER JOIN classificacao clas ON clas.id = cp.classificacaoid WHERE clas.caminho ILIKE '%PRINCIPAL%' ORDER BY cp.produtoid, clas.caminho) SELECT p.id AS produto_id, emb.id AS embalagem_id, emb.codigobarras::text AS ean, p.descricao, classific.classificacao2, classific.classificacao3 FROM produto p LEFT JOIN classific ON classific.produtoid = p.id LEFT JOIN embalagem emb ON emb.produtoid = p.id",
-      "output_file": "fetchMetadataByEans_{YYYYMMDD}.csv",
+      "job_id": "erp_fato_venda",
+      "nome": "venda",
+      "tipo": "FATO",
+      "descricao": "Registros de vendas realizadas",
+      "coluna_data": "datahorafechamento",
+      "sql": "SELECT * FROM venda WHERE datahorafechamento >= CURRENT_DATE - INTERVAL '365 days'",
+      "output_file": "venda_{YYYYMMDD}.csv",
       "ativo": true
     },
     {
-      "job_id": "erp_5_fetchERPData_ProductsWithCosts",
-      "nome": "fetchERPData_ProductsWithCosts",
-      "descricao": "Busca dados completos de produtos do ERP incluin...oque e ultima venda para geracao de candidatos de precificacao",
-      "sql": "WITH vendas AS (SELECT ven.id AS venda_id, itv.id AS item_id, ven.datahoraabertura AS dt_ven, ven.datahorafechamento AS dt_fech, emb.id AS embalagem_id, emb.codigobarras AS ean, prod.id AS produto_id, prod.descricao AS produto, mvestq.custo::NUMERIC AS custo, (itv.valortotal::NUMERIC / NULLIF(itv.quantidade::NUMERIC, 0)) AS preco_unit, ROW_NUMBER() OVER (PARTITION BY emb.id ORDER BY ven.datahorafechamento DESC, ven.id DESC, itv.id DESC) AS rn FROM venda ven JOIN itemvenda itv ON itv.vendaid = ven.id AND itv.status = 'F' JOIN movimentacaoestoque mvestq ON mvestq.id = itv.movimentacaoestoqueid JOIN unidadenegocio unid ON unid.id = ven.unidadenegocioid JOIN embalagem emb ON emb.id = itv.embalagemid JOIN produto prod ON prod.id = emb.produtoid WHERE ven.status = 'F' AND itv.origemdesconto <> 'M' AND ven.datahorafechamento >= (CURRENT_DATE - INTERVAL '3 months') AND unid.codigo NOT IN ('EFT','273','CALL','CCC','DISM','ESC','JEM','RGM','RSR','SINC')), vN AS (SELECT * FROM vendas WHERE rn <= 500 AND custo > 0 AND preco_unit > 0), v_med_cost AS (SELECT embalagem_id, percentile_cont(0.5) WITHIN GROUP (ORDER BY custo) AS mediana_cost FROM vN GROUP BY embalagem_id), v_dev_cost AS (SELECT v.*, m.mediana_cost, ABS(v.custo - m.mediana_cost) AS desvio_abs_cost FROM vN v JOIN v_med_cost m USING (embalagem_id)), v_mad_cost AS (SELECT embalagem_id, percentile_cont(0.5) WITHIN GROUP (ORDER BY desvio_abs_cost) AS mad_raw_cost FROM v_dev_cost GROUP BY embalagem_id), v_iqr_cost AS (SELECT embalagem_id, percentile_cont(0.25) WITHIN GROUP (ORDER BY custo) AS q1_cost, percentile_cont(0.75) WITHIN GROUP (ORDER BY custo) AS q3_cost FROM vN GROUP BY embalagem_id), v_filt_cost AS (SELECT d.* FROM v_dev_cost d JOIN v_mad_cost mt USING (embalagem_id) JOIN v_iqr_cost iq USING (embalagem_id) WHERE d.desvio_abs_cost <= CASE WHEN mt.mad_raw_cost > 0 THEN 1.5 * 1.4826 * mt.mad_raw_cost ELSE 0 END AND d.custo BETWEEN (iq.q1_cost - 1.0 * (iq.q3_cost - iq.q1_cost)) AND (iq.q3_cost + 1.0 * (iq.q3_cost - iq.q1_cost))), freq_all_cost AS (SELECT embalagem_id, ean, produto_id, produto, ROUND(custo,2) AS custo_val, COUNT(*) AS freq, MAX(dt_ven) AS last_dt FROM vN GROUP BY embalagem_id, ean, produto_id, produto, ROUND(custo,2)), freq_filt_cost AS (SELECT embalagem_id, ean, produto_id, produto, ROUND(custo,2) AS custo_val, COUNT(*) AS freq, MAX(dt_ven) AS last_dt FROM v_filt_cost GROUP BY embalagem_id, ean, produto_id, produto, ROUND(custo,2)), moda_cost AS (SELECT embalagem_id, ean, produto_id, produto, custo_val, freq, ROW_NUMBER() OVER (PARTITION BY embalagem_id ORDER BY prefer ASC, freq DESC, last_dt DESC) AS rnk FROM (SELECT 0 AS prefer, * FROM freq_filt_cost UNION ALL SELECT 1 AS prefer, * FROM freq_all_cost) x), v_med_price AS (SELECT embalagem_id, percentile_cont(0.5) WITHIN GROUP (ORDER BY preco_unit) AS mediana_price FROM vN GROUP BY embalagem_id), v_dev_price AS (SELECT v.*, m.mediana_price, ABS(v.preco_unit - m.mediana_price) AS desvio_abs_price FROM vN v JOIN v_med_price m USING (embalagem_id)), v_mad_price AS (SELECT embalagem_id, percentile_cont(0.5) WITHIN GROUP (ORDER BY desvio_abs_price) AS mad_raw_price FROM v_dev_price GROUP BY embalagem_id), v_iqr_price AS (SELECT embalagem_id, percentile_cont(0.25) WITHIN GROUP (ORDER BY preco_unit) AS q1_price, percentile_cont(0.75) WITHIN GROUP (ORDER BY preco_unit) AS q3_price FROM vN GROUP BY embalagem_id), v_filt_price AS (SELECT d.* FROM v_dev_price d JOIN v_mad_price mt USING (embalagem_id) JOIN v_iqr_price iq USING (embalagem_id) WHERE d.desvio_abs_price <= CASE WHEN mt.mad_raw_price > 0 THEN 1.5 * 1.4826 * mt.mad_raw_price ELSE 0 END AND d.preco_unit BETWEEN (iq.q1_price - 1.0 * (iq.q3_price - iq.q1_price)) AND (iq.q3_price + 1.0 * (iq.q3_price - iq.q1_price))), freq_all_price AS (SELECT embalagem_id, ean, produto_id, produto, ROUND(preco_unit,2) AS preco_unit_val, COUNT(*) AS freq, MAX(dt_ven) AS last_dt FROM vN GROUP BY embalagem_id, ean, produto_id, produto, ROUND(preco_unit,2)), freq_filt_price AS (SELECT embalagem_id, ean, produto_id, produto, ROUND(preco_unit,2) AS preco_unit_val, COUNT(*) AS freq, MAX(dt_ven) AS last_dt FROM v_filt_price GROUP BY embalagem_id, ean, produto_id, produto, ROUND(preco_unit,2)), moda_price AS (SELECT embalagem_id, ean, produto_id, produto, preco_unit_val, freq, ROW_NUMBER() OVER (PARTITION BY embalagem_id ORDER BY prefer ASC, freq DESC, last_dt DESC) AS rnk FROM (SELECT 0 AS prefer, * FROM freq_filt_price UNION ALL SELECT 1 AS prefer, * FROM freq_all_price) x), melhor_oferta AS (SELECT mo.embalagemid, (array_agg(mo.cadernoofertaid ORDER BY mo.precounitariocomdesconto))[1] AS cadernoofertaid, (array_agg(mo.precounitariocomdesconto ORDER BY mo.precounitariocomdesconto))[1] AS preco FROM melhoroferta mo GROUP BY mo.embalagemid), caderno_app AS (SELECT ic.embalagemid, MIN(ic.precooferta)::NUMERIC AS precocadernoapp FROM itemcadernooferta ic WHERE ic.cadernoofertaid = '1100748493276' GROUP BY ic.embalagemid), caderno_com_produto AS (SELECT c.embalagemid, e.produtoid, c.precocadernoapp, e.datahorainclusao FROM caderno_app c JOIN embalagem e ON e.id = c.embalagemid), mais_recente AS (SELECT DISTINCT ON (produtoid) produtoid, precocadernoapp AS preco_mais_recente FROM caderno_com_produto ORDER BY produtoid, datahorainclusao DESC), caderno_app_preco_generalizado AS (SELECT cc.*, mr.preco_mais_recente AS preco_generalizado FROM caderno_com_produto cc JOIN mais_recente mr ON cc.produtoid = mr.produtoid), classi AS (SELECT DISTINCT ON (cp.produtoid) cp.produtoid, split_part(clas.caminho,' > ',2) AS classificacao2, split_part(clas.caminho,' > ',3) AS classificacao3 FROM classificacaoproduto cp JOIN classificacao clas ON clas.id = cp.classificacaoid WHERE clas.caminho LIKE '%PRINCIPAL%'), estoqueg AS (SELECT EMBALAGEMID, SUM(ESTOQUE) AS ESTOQUE FROM ESTOQUE GROUP BY EMBALAGEMID), ultima_venda AS (SELECT embalagem_id, MAX(COALESCE(dt_fech, dt_ven)::date) AS ultima_venda FROM vendas GROUP BY embalagem_id), emb_latest AS (SELECT DISTINCT ON (e.produtoid) e.produtoid, e.id AS embalagem_id_canon, e.codigobarras AS ean_canon, e.datahorainclusao FROM embalagem e ORDER BY e.produtoid, e.datahorainclusao DESC, e.id DESC), base_prod_nf AS (SELECT ntf.id AS nf_id, ntf.datahoraemissao, ntf.numero AS numeronotafiscal, eb.produtoid, MIN(eb.descricao) AS produto, ROUND(SUM(inf.valortotal)::numeric / NULLIF(SUM(inf.quantidade),0), 2) AS valorunitario FROM itemnotafiscal inf JOIN notafiscal ntf ON inf.notafiscalid = ntf.id JOIN embalagem eb ON inf.embalagemid = eb.id JOIN classificacaoproduto cp ON cp.produtoid = eb.produtoid JOIN classificacao cl ON cl.id = cp.classificacaoid AND cl.principal = TRUE JOIN unidadenegocio un ON ntf.unidadenegocioid = un.id JOIN fornecedor fo ON ntf.fornecedorid = fo.id JOIN pessoa pe ON fo.pessoaid = pe.id WHERE un.codigo IN ('01','02','03','04','05','06','07','08','09','10','11','12','13','JEM') AND ntf.datahoraemissao >= CURRENT_DATE-360 AND ntf.status <> 'A' AND cl.caminho NOT LIKE '%CONSUMO INTERNO%' AND cl.caminho NOT LIKE '%SERVICOS%' AND COALESCE(inf.bonificacao, FALSE) = FALSE AND pe.id NOT IN (846427384,123284,124345,1800006315101,1450009386331,1700005649482,1750003918002,1650004857327,1000019740087,1550006711534,896017,152705,1050000454483,121667,200001605041,867261562,867261703,50000328369,867261640,867261750,867261711) GROUP BY ntf.id, ntf.datahoraemissao, ntf.numero, eb.produtoid), top3_nf AS (SELECT b.*, ROW_NUMBER() OVER (PARTITION BY b.produtoid ORDER BY b.datahoraemissao DESC, b.nf_id DESC) AS rn FROM base_prod_nf b), custo_por_produto_nf AS (SELECT produtoid, MAX(valorunitario) AS custo FROM top3_nf WHERE rn <= 3 GROUP BY produtoid), canon_metrics AS (SELECT el.produtoid, el.embalagem_id_canon, el.ean_canon, COALESCE(cpp.custo, mc.custo_val) AS custo_canon, mp.preco_unit_val AS preco_canon, mo.preco AS melhor_oferta_tab_canon, mo.cadernoofertaid AS cadernoofertaid_canon, est.estoque AS estoque_canon, uv.ultima_venda AS ultima_venda_canon, (CURRENT_DATE - uv.ultima_venda) AS dias_sem_venda_canon FROM emb_latest el LEFT JOIN custo_por_produto_nf cpp ON cpp.produtoid = el.produtoid LEFT JOIN moda_cost mc ON mc.embalagem_id = el.embalagem_id_canon AND mc.rnk = 1 LEFT JOIN moda_price mp ON mp.embalagem_id = el.embalagem_id_canon AND mp.rnk = 1 LEFT JOIN melhor_oferta mo ON mo.embalagemid = el.embalagem_id_canon LEFT JOIN estoqueg est ON est.embalagemid = el.embalagem_id_canon LEFT JOIN ultima_venda uv ON uv.embalagem_id = el.embalagem_id_canon) SELECT e.codigobarras AS ean, e.datahorainclusao AS data_cada_prod, e.id AS idEmbalagem, e.descricao AS Nome_do_Produto, e.produtoid, p.descricao AS produto, cla.classificacao2, cla.classificacao3 AS Classificacao, capp.precocadernoapp, cm.custo_canon AS custo_venda, cm.preco_canon AS preco_loja, cm.preco_canon AS preco_referencial, cm.melhor_oferta_tab_canon AS melhor_oferta_tab, cm.cadernoofertaid_canon AS cadernoofertaid, cm.estoque_canon AS estoque, cm.ultima_venda_canon AS ultima_venda, cm.dias_sem_venda_canon AS dias_sem_venda, cm.ean_canon AS ean_canon_origem FROM canon_metrics cm JOIN produto p ON p.id = cm.produtoid JOIN embalagem e ON e.produtoid = cm.produtoid LEFT JOIN caderno_app_preco_generalizado capp ON capp.embalagemid = e.id LEFT JOIN classi cla ON cla.produtoid = cm.produtoid AND e.codigobarras IS NOT NULL WHERE cm.estoque_canon > 0 ORDER BY p.descricao, e.codigobarras",
-      "output_file": "fetchERPData_ProductsWithCosts_{YYYYMMDD}.csv",
+      "job_id": "erp_fato_itemvenda",
+      "nome": "itemvenda",
+      "tipo": "FATO",
+      "descricao": "Itens das vendas (produtos vendidos)",
+      "coluna_data": "via JOIN com venda",
+      "sql": "SELECT iv.* FROM itemvenda iv JOIN venda v ON iv.vendaid = v.id WHERE v.datahorafechamento >= CURRENT_DATE - INTERVAL '365 days'",
+      "output_file": "itemvenda_{YYYYMMDD}.csv",
       "ativo": true
     },
     {
-      "job_id": "erp_6_getClassifications",
-      "nome": "getClassifications",
-      "descricao": "Lista classificacoes de produtos em hierarquia para filtros por categoria",
-      "sql": "SELECT id, caminho FROM classificacao WHERE caminho ILIKE '%PRINCIPAL%' ORDER BY caminho",
-      "output_file": "getClassifications_{YYYYMMDD}.csv",
+      "job_id": "erp_fato_movimentacaoestoque",
+      "nome": "movimentacaoestoque",
+      "tipo": "FATO",
+      "descricao": "Movimentacoes de estoque com custo",
+      "coluna_data": "via JOIN com itemvenda/venda",
+      "sql": "SELECT DISTINCT me.* FROM movimentacaoestoque me JOIN itemvenda iv ON me.id = iv.movimentacaoestoqueid JOIN venda v ON iv.vendaid = v.id WHERE v.datahorafechamento >= CURRENT_DATE - INTERVAL '365 days'",
+      "output_file": "movimentacaoestoque_{YYYYMMDD}.csv",
       "ativo": true
     },
     {
-      "job_id": "erp_7_listCadernos",
-      "nome": "listCadernos",
-      "descricao": "Lista cadernos de ofertas ativos e nao expirados para selecao de destino de publicacao de precos",
-      "sql": "SELECT id, nome, datahorafinal FROM cadernooferta WHERE status = 'A' AND (datahorafinal >= CURRENT_DATE OR datahorafinal IS NULL) ORDER BY nome",
-      "output_file": "listCadernos_{YYYYMMDD}.csv",
+      "job_id": "erp_fato_notafiscal",
+      "nome": "notafiscal",
+      "tipo": "FATO",
+      "descricao": "Notas fiscais de compra (entrada)",
+      "coluna_data": "datahoraemissao",
+      "sql": "SELECT * FROM notafiscal WHERE datahoraemissao >= CURRENT_DATE - INTERVAL '365 days'",
+      "output_file": "notafiscal_{YYYYMMDD}.csv",
       "ativo": true
     },
     {
-      "job_id": "erp_8_countCadernos",
-      "nome": "countCadernos",
-      "descricao": "Conta total de cadernos de ofertas ativos para paginacao",
-      "sql": "SELECT COUNT(*)::int as count FROM cadernooferta WHERE status = 'A' AND (datahorafinal >= CURRENT_DATE OR datahorafinal IS NULL)",
-      "output_file": "countCadernos_{YYYYMMDD}.csv",
+      "job_id": "erp_fato_itemnotafiscal",
+      "nome": "itemnotafiscal",
+      "tipo": "FATO",
+      "descricao": "Itens das notas fiscais de compra",
+      "coluna_data": "via JOIN com notafiscal",
+      "sql": "SELECT inf.* FROM itemnotafiscal inf JOIN notafiscal nf ON inf.notafiscalid = nf.id WHERE nf.datahoraemissao >= CURRENT_DATE - INTERVAL '365 days'",
+      "output_file": "itemnotafiscal_{YYYYMMDD}.csv",
+      "ativo": true
+    },
+    {
+      "job_id": "erp_fato_estoque",
+      "nome": "estoque",
+      "tipo": "FATO",
+      "descricao": "Posicao atual de estoque por embalagem (snapshot)",
+      "coluna_data": "N/A - snapshot atual",
+      "sql": "SELECT * FROM estoque",
+      "output_file": "estoque_{YYYYMMDD}.csv",
+      "ativo": true
+    },
+    {
+      "job_id": "erp_dim_produto",
+      "nome": "produto",
+      "tipo": "DIMENSAO",
+      "descricao": "Cadastro de produtos",
+      "sql": "SELECT * FROM produto",
+      "output_file": "produto_{YYYYMMDD}.csv",
+      "ativo": true
+    },
+    {
+      "job_id": "erp_dim_embalagem",
+      "nome": "embalagem",
+      "tipo": "DIMENSAO",
+      "descricao": "Cadastro de embalagens (EANs) dos produtos",
+      "sql": "SELECT * FROM embalagem",
+      "output_file": "embalagem_{YYYYMMDD}.csv",
+      "ativo": true
+    },
+    {
+      "job_id": "erp_dim_classificacao",
+      "nome": "classificacao",
+      "tipo": "DIMENSAO",
+      "descricao": "Arvore de classificacoes de produtos",
+      "sql": "SELECT * FROM classificacao",
+      "output_file": "classificacao_{YYYYMMDD}.csv",
+      "ativo": true
+    },
+    {
+      "job_id": "erp_dim_classificacaoproduto",
+      "nome": "classificacaoproduto",
+      "tipo": "DIMENSAO",
+      "descricao": "Relacionamento produto-classificacao",
+      "sql": "SELECT * FROM classificacaoproduto",
+      "output_file": "classificacaoproduto_{YYYYMMDD}.csv",
+      "ativo": true
+    },
+    {
+      "job_id": "erp_dim_unidadenegocio",
+      "nome": "unidadenegocio",
+      "tipo": "DIMENSAO",
+      "descricao": "Cadastro de lojas/unidades de negocio",
+      "sql": "SELECT * FROM unidadenegocio",
+      "output_file": "unidadenegocio_{YYYYMMDD}.csv",
+      "ativo": true
+    },
+    {
+      "job_id": "erp_dim_fornecedor",
+      "nome": "fornecedor",
+      "tipo": "DIMENSAO",
+      "descricao": "Cadastro de fornecedores",
+      "sql": "SELECT * FROM fornecedor",
+      "output_file": "fornecedor_{YYYYMMDD}.csv",
+      "ativo": true
+    },
+    {
+      "job_id": "erp_dim_pessoa",
+      "nome": "pessoa",
+      "tipo": "DIMENSAO",
+      "descricao": "Cadastro de pessoas (vinculado a fornecedor)",
+      "sql": "SELECT * FROM pessoa",
+      "output_file": "pessoa_{YYYYMMDD}.csv",
+      "ativo": true
+    },
+    {
+      "job_id": "erp_dim_cadernooferta",
+      "nome": "cadernooferta",
+      "tipo": "DIMENSAO",
+      "descricao": "Cadastro de cadernos de ofertas",
+      "sql": "SELECT * FROM cadernooferta",
+      "output_file": "cadernooferta_{YYYYMMDD}.csv",
+      "ativo": true
+    },
+    {
+      "job_id": "erp_dim_itemcadernooferta",
+      "nome": "itemcadernooferta",
+      "tipo": "DIMENSAO",
+      "descricao": "Itens dos cadernos de ofertas (precos promocionais)",
+      "sql": "SELECT * FROM itemcadernooferta",
+      "output_file": "itemcadernooferta_{YYYYMMDD}.csv",
+      "ativo": true
+    },
+    {
+      "job_id": "erp_dim_melhoroferta",
+      "nome": "melhoroferta",
+      "tipo": "DIMENSAO",
+      "descricao": "Melhores ofertas por embalagem",
+      "sql": "SELECT * FROM melhoroferta",
+      "output_file": "melhoroferta_{YYYYMMDD}.csv",
       "ativo": true
     }
   ]
