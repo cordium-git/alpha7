@@ -32,7 +32,7 @@
       "tipo": "FATO",
       "descricao": "Itens das vendas (produtos vendidos)",
       "coluna_data": "via JOIN com venda",
-      "sql": "SELECT iv.* FROM itemvenda iv WHERE v.datahora >= CURRENT_DATE - INTERVAL '365 days' LIMIT 10",
+      "sql": "SELECT iv.* FROM itemvenda iv WHERE iv.datahora >= CURRENT_DATE - INTERVAL '365 days' LIMIT 10",
       "output_file": "itemvenda_{YYYYMMDD}.csv",
       "ativo": true
     },
