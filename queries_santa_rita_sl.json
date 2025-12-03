@@ -1,0 +1,170 @@
+{
+  "cliente_id": "erp_pricinghub_full",
+  "versao_config": 1,
+  "metadata": {
+    "projeto": "Pricing Hub",
+    "descricao": "Queries SELECT * para todas as tabelas ERP utilizadas no projeto",
+    "data_extracao_padrao": "2025-12-02",
+    "total_tabelas": 16,
+    "filtro_fato": "CURRENT_DATE - 365 dias"
+  },
+  "fonte_banco": {
+    "tipo": "ERP",
+    "host_env": "ERP_DB_HOST",
+    "porta": 5432,
+    "banco_env": "ERP_DB_NAME",
+    "schema_padrao": "public"
+  },
+  "jobs": [
+    {
+      "job_id": "erp_fato_venda",
+      "nome": "venda",
+      "tipo": "FATO",
+      "descricao": "Registros de vendas realizadas",
+      "coluna_data": "datahorafechamento",
+      "sql": "SELECT * FROM venda WHERE datahorafechamento >= CURRENT_DATE - INTERVAL '365 days'",
+      "output_file": "venda_{YYYYMMDD}.csv",
+      "ativo": true
+    },
+    {
+      "job_id": "erp_fato_itemvenda",
+      "nome": "itemvenda",
+      "tipo": "FATO",
+      "descricao": "Itens das vendas (produtos vendidos)",
+      "coluna_data": "via JOIN com venda",
+      "sql": "SELECT iv.* FROM itemvenda iv JOIN venda v ON iv.vendaid = v.id WHERE v.datahorafechamento >= CURRENT_DATE - INTERVAL '365 days'",
+      "output_file": "itemvenda_{YYYYMMDD}.csv",
+      "ativo": true
+    },
+    {
+      "job_id": "erp_fato_movimentacaoestoque",
+      "nome": "movimentacaoestoque",
+      "tipo": "FATO",
+      "descricao": "Movimentacoes de estoque com custo",
+      "coluna_data": "via JOIN com itemvenda/venda",
+      "sql": "SELECT DISTINCT me.* FROM movimentacaoestoque me JOIN itemvenda iv ON me.id = iv.movimentacaoestoqueid JOIN venda v ON iv.vendaid = v.id WHERE v.datahorafechamento >= CURRENT_DATE - INTERVAL '365 days'",
+      "output_file": "movimentacaoestoque_{YYYYMMDD}.csv",
+      "ativo": true
+    },
+    {
+      "job_id": "erp_fato_notafiscal",
+      "nome": "notafiscal",
+      "tipo": "FATO",
+      "descricao": "Notas fiscais de compra (entrada)",
+      "coluna_data": "datahoraemissao",
+      "sql": "SELECT * FROM notafiscal WHERE datahoraemissao >= CURRENT_DATE - INTERVAL '365 days'",
+      "output_file": "notafiscal_{YYYYMMDD}.csv",
+      "ativo": true
+    },
+    {
+      "job_id": "erp_fato_itemnotafiscal",
+      "nome": "itemnotafiscal",
+      "tipo": "FATO",
+      "descricao": "Itens das notas fiscais de compra",
+      "coluna_data": "via JOIN com notafiscal",
+      "sql": "SELECT inf.* FROM itemnotafiscal inf JOIN notafiscal nf ON inf.notafiscalid = nf.id WHERE nf.datahoraemissao >= CURRENT_DATE - INTERVAL '365 days'",
+      "output_file": "itemnotafiscal_{YYYYMMDD}.csv",
+      "ativo": true
+    },
+    {
+      "job_id": "erp_fato_estoque",
+      "nome": "estoque",
+      "tipo": "FATO",
+      "descricao": "Posicao atual de estoque por embalagem (snapshot)",
+      "coluna_data": "N/A - snapshot atual",
+      "sql": "SELECT * FROM estoque",
+      "output_file": "estoque_{YYYYMMDD}.csv",
+      "ativo": true
+    },
+    {
+      "job_id": "erp_dim_produto",
+      "nome": "produto",
+      "tipo": "DIMENSAO",
+      "descricao": "Cadastro de produtos",
+      "sql": "SELECT * FROM produto",
+      "output_file": "produto_{YYYYMMDD}.csv",
+      "ativo": true
+    },
+    {
+      "job_id": "erp_dim_embalagem",
+      "nome": "embalagem",
+      "tipo": "DIMENSAO",
+      "descricao": "Cadastro de embalagens (EANs) dos produtos",
+      "sql": "SELECT * FROM embalagem",
+      "output_file": "embalagem_{YYYYMMDD}.csv",
+      "ativo": true
+    },
+    {
+      "job_id": "erp_dim_classificacao",
+      "nome": "classificacao",
+      "tipo": "DIMENSAO",
+      "descricao": "Arvore de classificacoes de produtos",
+      "sql": "SELECT * FROM classificacao",
+      "output_file": "classificacao_{YYYYMMDD}.csv",
+      "ativo": true
+    },
+    {
+      "job_id": "erp_dim_classificacaoproduto",
+      "nome": "classificacaoproduto",
+      "tipo": "DIMENSAO",
+      "descricao": "Relacionamento produto-classificacao",
+      "sql": "SELECT * FROM classificacaoproduto",
+      "output_file": "classificacaoproduto_{YYYYMMDD}.csv",
+      "ativo": true
+    },
+    {
+      "job_id": "erp_dim_unidadenegocio",
+      "nome": "unidadenegocio",
+      "tipo": "DIMENSAO",
+      "descricao": "Cadastro de lojas/unidades de negocio",
+      "sql": "SELECT * FROM unidadenegocio",
+      "output_file": "unidadenegocio_{YYYYMMDD}.csv",
+      "ativo": true
+    },
+    {
+      "job_id": "erp_dim_fornecedor",
+      "nome": "fornecedor",
+      "tipo": "DIMENSAO",
+      "descricao": "Cadastro de fornecedores",
+      "sql": "SELECT * FROM fornecedor",
+      "output_file": "fornecedor_{YYYYMMDD}.csv",
+      "ativo": true
+    },
+    {
+      "job_id": "erp_dim_pessoa",
+      "nome": "pessoa",
+      "tipo": "DIMENSAO",
+      "descricao": "Cadastro de pessoas (vinculado a fornecedor)",
+      "sql": "SELECT * FROM pessoa",
+      "output_file": "pessoa_{YYYYMMDD}.csv",
+      "ativo": true
+    },
+    {
+      "job_id": "erp_dim_cadernooferta",
+      "nome": "cadernooferta",
+      "tipo": "DIMENSAO",
+      "descricao": "Cadastro de cadernos de ofertas",
+      "sql": "SELECT * FROM cadernooferta",
+      "output_file": "cadernooferta_{YYYYMMDD}.csv",
+      "ativo": true
+    },
+    {
+      "job_id": "erp_dim_itemcadernooferta",
+      "nome": "itemcadernooferta",
+      "tipo": "DIMENSAO",
+      "descricao": "Itens dos cadernos de ofertas (precos promocionais)",
+      "sql": "SELECT * FROM itemcadernooferta",
+      "output_file": "itemcadernooferta_{YYYYMMDD}.csv",
+      "ativo": true
+    },
+    {
+      "job_id": "erp_dim_melhoroferta",
+      "nome": "melhoroferta",
+      "tipo": "DIMENSAO",
+      "descricao": "Melhores ofertas por embalagem",
+      "sql": "SELECT * FROM melhoroferta",
+      "output_file": "melhoroferta_{YYYYMMDD}.csv",
+      "ativo": true
+    }
+  ]
+}
