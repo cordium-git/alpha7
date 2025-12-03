@@ -22,7 +22,7 @@
       "tipo": "FATO",
       "descricao": "Registros de vendas realizadas",
       "coluna_data": "datahorafechamento",
-      "sql": "SELECT * FROM venda WHERE datahorafechamento >= CURRENT_DATE - INTERVAL '365 days'",
+      "sql": "SELECT * FROM venda WHERE datahorafechamento >= CURRENT_DATE - INTERVAL '365 days' LIMIT 10",
       "output_file": "venda_{YYYYMMDD}.csv",
       "ativo": true
     },
@@ -32,7 +32,7 @@
       "tipo": "FATO",
       "descricao": "Itens das vendas (produtos vendidos)",
       "coluna_data": "via JOIN com venda",
-      "sql": "SELECT iv.* FROM itemvenda iv JOIN venda v ON iv.vendaid = v.id WHERE v.datahorafechamento >= CURRENT_DATE - INTERVAL '365 days'",
+      "sql": "SELECT iv.* FROM itemvenda iv JOIN venda v ON iv.vendaid = v.id WHERE v.datahorafechamento >= CURRENT_DATE - INTERVAL '365 days' LIMIT 10",
       "output_file": "itemvenda_{YYYYMMDD}.csv",
       "ativo": true
     },
@@ -42,7 +42,7 @@
       "tipo": "FATO",
       "descricao": "Movimentacoes de estoque com custo",
       "coluna_data": "via JOIN com itemvenda/venda",
-      "sql": "SELECT DISTINCT me.* FROM movimentacaoestoque me JOIN itemvenda iv ON me.id = iv.movimentacaoestoqueid JOIN venda v ON iv.vendaid = v.id WHERE v.datahorafechamento >= CURRENT_DATE - INTERVAL '365 days'",
+      "sql": "SELECT DISTINCT me.* FROM movimentacaoestoque me JOIN itemvenda iv ON me.id = iv.movimentacaoestoqueid JOIN venda v ON iv.vendaid = v.id WHERE v.datahorafechamento >= CURRENT_DATE - INTERVAL '365 days' LIMIT 10",
       "output_file": "movimentacaoestoque_{YYYYMMDD}.csv",
       "ativo": true
     },
@@ -52,7 +52,7 @@
       "tipo": "FATO",
       "descricao": "Notas fiscais de compra (entrada)",
       "coluna_data": "datahoraemissao",
-      "sql": "SELECT * FROM notafiscal WHERE datahoraemissao >= CURRENT_DATE - INTERVAL '365 days'",
+      "sql": "SELECT * FROM notafiscal WHERE datahoraemissao >= CURRENT_DATE - INTERVAL '365 days' LIMIT 10",
       "output_file": "notafiscal_{YYYYMMDD}.csv",
       "ativo": true
     },
@@ -62,7 +62,7 @@
       "tipo": "FATO",
       "descricao": "Itens das notas fiscais de compra",
       "coluna_data": "via JOIN com notafiscal",
-      "sql": "SELECT inf.* FROM itemnotafiscal inf JOIN notafiscal nf ON inf.notafiscalid = nf.id WHERE nf.datahoraemissao >= CURRENT_DATE - INTERVAL '365 days'",
+      "sql": "SELECT inf.* FROM itemnotafiscal inf JOIN notafiscal nf ON inf.notafiscalid = nf.id WHERE nf.datahoraemissao >= CURRENT_DATE - INTERVAL '365 days' LIMIT 10",
       "output_file": "itemnotafiscal_{YYYYMMDD}.csv",
       "ativo": true
     },
@@ -72,7 +72,7 @@
       "tipo": "FATO",
       "descricao": "Posicao atual de estoque por embalagem (snapshot)",
       "coluna_data": "N/A - snapshot atual",
-      "sql": "SELECT * FROM estoque",
+      "sql": "SELECT * FROM estoque LIMIT 10",
       "output_file": "estoque_{YYYYMMDD}.csv",
       "ativo": true
     },
@@ -81,7 +81,7 @@
       "nome": "produto",
       "tipo": "DIMENSAO",
       "descricao": "Cadastro de produtos",
-      "sql": "SELECT * FROM produto",
+      "sql": "SELECT * FROM produto LIMIT 10",
       "output_file": "produto_{YYYYMMDD}.csv",
       "ativo": true
     },
@@ -90,7 +90,7 @@
       "nome": "embalagem",
       "tipo": "DIMENSAO",
       "descricao": "Cadastro de embalagens (EANs) dos produtos",
-      "sql": "SELECT * FROM embalagem",
+      "sql": "SELECT * FROM embalagem LIMIT 10",
       "output_file": "embalagem_{YYYYMMDD}.csv",
       "ativo": true
     },
@@ -99,7 +99,7 @@
       "nome": "classificacao",
       "tipo": "DIMENSAO",
       "descricao": "Arvore de classificacoes de produtos",
-      "sql": "SELECT * FROM classificacao",
+      "sql": "SELECT * FROM classificacao LIMIT 10",
       "output_file": "classificacao_{YYYYMMDD}.csv",
       "ativo": true
     },
@@ -108,7 +108,7 @@
       "nome": "classificacaoproduto",
       "tipo": "DIMENSAO",
       "descricao": "Relacionamento produto-classificacao",
-      "sql": "SELECT * FROM classificacaoproduto",
+      "sql": "SELECT * FROM classificacaoproduto LIMIT 10",
       "output_file": "classificacaoproduto_{YYYYMMDD}.csv",
       "ativo": true
     },
@@ -117,7 +117,7 @@
       "nome": "unidadenegocio",
       "tipo": "DIMENSAO",
       "descricao": "Cadastro de lojas/unidades de negocio",
-      "sql": "SELECT * FROM unidadenegocio",
+      "sql": "SELECT * FROM unidadenegocio LIMIT 10",
       "output_file": "unidadenegocio_{YYYYMMDD}.csv",
       "ativo": true
     },
@@ -126,7 +126,7 @@
       "nome": "fornecedor",
       "tipo": "DIMENSAO",
       "descricao": "Cadastro de fornecedores",
-      "sql": "SELECT * FROM fornecedor",
+      "sql": "SELECT * FROM fornecedor LIMIT 10",
       "output_file": "fornecedor_{YYYYMMDD}.csv",
       "ativo": true
     },
@@ -135,7 +135,7 @@
       "nome": "pessoa",
       "tipo": "DIMENSAO",
       "descricao": "Cadastro de pessoas (vinculado a fornecedor)",
-      "sql": "SELECT * FROM pessoa",
+      "sql": "SELECT * FROM pessoa LIMIT 10",
       "output_file": "pessoa_{YYYYMMDD}.csv",
       "ativo": true
     },
@@ -144,7 +144,7 @@
       "nome": "cadernooferta",
       "tipo": "DIMENSAO",
       "descricao": "Cadastro de cadernos de ofertas",
-      "sql": "SELECT * FROM cadernooferta",
+      "sql": "SELECT * FROM cadernooferta LIMIT 10",
       "output_file": "cadernooferta_{YYYYMMDD}.csv",
       "ativo": true
     },
@@ -153,7 +153,7 @@
       "nome": "itemcadernooferta",
       "tipo": "DIMENSAO",
       "descricao": "Itens dos cadernos de ofertas (precos promocionais)",
-      "sql": "SELECT * FROM itemcadernooferta",
+      "sql": "SELECT * FROM itemcadernooferta LIMIT 10",
       "output_file": "itemcadernooferta_{YYYYMMDD}.csv",
       "ativo": true
     },
@@ -162,7 +162,7 @@
       "nome": "melhoroferta",
       "tipo": "DIMENSAO",
       "descricao": "Melhores ofertas por embalagem",
-      "sql": "SELECT * FROM melhoroferta",
+      "sql": "SELECT * FROM melhoroferta LIMIT 10",
       "output_file": "melhoroferta_{YYYYMMDD}.csv",
       "ativo": true
     }
