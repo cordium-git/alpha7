@@ -42,7 +42,7 @@
       "tipo": "FATO",
       "descricao": "Movimentacoes de estoque com custo",
       "coluna_data": "via JOIN com itemvenda/venda",
-      "sql": "SELECT DISTINCT me.* FROM movimentacaoestoque me JOIN itemvenda iv ON me.id = iv.movimentacaoestoqueid JOIN venda v ON iv.vendaid = v.id WHERE v.datahorafechamento >= CURRENT_DATE - INTERVAL '365 days' LIMIT 10",
+      "sql": "SELECT DISTINCT me.* FROM movimentacaoestoque me WHERE me.datahora >= CURRENT_DATE - INTERVAL '365 days' LIMIT 10",
       "output_file": "movimentacaoestoque_{YYYYMMDD}.csv",
       "ativo": true
     },
