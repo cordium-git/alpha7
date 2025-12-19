@@ -42,7 +42,7 @@
       "tipo": "FATO",
       "descricao": "Movimentacoes de estoque com custo",
       "coluna_data": "via JOIN com itemvenda/venda",
-      "sql": "SELECT DISTINCT me.* FROM movimentacaoestoque me JOIN itemvenda iv ON me.id = iv.movimentacaoestoqueid JOIN venda v ON iv.vendaid = v.id WHERE v.datahorafechamento >= CURRENT_DATE - INTERVAL '365 days'",
+      "sql": "SELECT DISTINCT me.* FROM movimentacaoestoque me JOIN itemvenda iv ON me.id = iv.movimentacaoestoqueid JOIN venda v ON iv.vendaid = v.id WHERE v.datahorafechamento >= CURRENT_DATE - INTERVAL '210 days'",
       "output_file": "movimentacaoestoque_{YYYYMMDD}.csv",
       "ativo": true
     },
@@ -52,7 +52,7 @@
       "tipo": "FATO",
       "descricao": "Notas fiscais de compra (entrada)",
       "coluna_data": "datahoraemissao",
-      "sql": "SELECT * FROM notafiscal WHERE datahoraemissao >= CURRENT_DATE - INTERVAL '365 days'",
+      "sql": "SELECT * FROM notafiscal WHERE datahoraemissao >= CURRENT_DATE - INTERVAL '210 days'",
       "output_file": "notafiscal_{YYYYMMDD}.csv",
       "ativo": true
     },
@@ -62,7 +62,7 @@
       "tipo": "FATO",
       "descricao": "Itens das notas fiscais de compra",
       "coluna_data": "via JOIN com notafiscal",
-      "sql": "SELECT inf.* FROM itemnotafiscal inf JOIN notafiscal nf ON inf.notafiscalid = nf.id WHERE nf.datahoraemissao >= CURRENT_DATE - INTERVAL '365 days'",
+      "sql": "SELECT inf.* FROM itemnotafiscal inf JOIN notafiscal nf ON inf.notafiscalid = nf.id WHERE nf.datahoraemissao >= CURRENT_DATE - INTERVAL '210 days'",
       "output_file": "itemnotafiscal_{YYYYMMDD}.csv",
       "ativo": true
     },
