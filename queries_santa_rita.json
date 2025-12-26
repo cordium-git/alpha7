@@ -3,9 +3,9 @@
   "versao_config": 1,
   "metadata": {
     "projeto": "Pricing Hub",
-    "descricao": "Queries SELECT * para todas as tabelas ERP utilizadas no projeto",
+    "descricao": "Queries com colunas mínimas necessárias (apenas nas tabelas solicitadas) + SELECT * nas demais",
     "data_extracao_padrao": "2025-12-02",
-    "total_tabelas": 16,
+    "total_tabelas": 18,
     "filtro_fato": "CURRENT_DATE - 150 dias"
   },
   "fonte_banco": {
@@ -20,9 +20,9 @@
       "job_id": "erp_fato_venda",
       "nome": "venda",
       "tipo": "FATO",
-      "descricao": "Registros de vendas realizadas",
+      "descricao": "Registros de vendas realizadas (colunas mínimas necessárias)",
       "coluna_data": "datahorafechamento",
-      "sql": "SELECT * FROM venda WHERE datahorafechamento >= CURRENT_DATE - INTERVAL '90 days'",
+      "sql": "SELECT id, pessoaid, caixaid, datahoraabertura, datahorafechamento, unidadenegocioid, status FROM venda WHERE datahorafechamento >= CURRENT_DATE - INTERVAL '90 days'",
       "output_file": "venda_{YYYYMMDD}.csv",
       "ativo": true
     },
@@ -30,9 +30,9 @@
       "job_id": "erp_fato_itemvenda",
       "nome": "itemvenda",
       "tipo": "FATO",
-      "descricao": "Itens das vendas (produtos vendidos)",
+      "descricao": "Itens das vendas (colunas mínimas necessárias)",
       "coluna_data": "via JOIN com venda",
-      "sql": "SELECT iv.* FROM itemvenda iv JOIN venda v ON iv.vendaid = v.id WHERE v.datahorafechamento >= CURRENT_DATE - INTERVAL '90 days'",
+      "sql": "SELECT iv.id, iv.vendaid, iv.status, iv.movimentacaoestoqueid, iv.embalagemid, iv.valortotal, iv.quantidade, iv.origemdesconto, iv.valorunitario, iv.desconto, iv.itemorcamentoid FROM itemvenda iv JOIN venda v ON iv.vendaid = v.id WHERE v.datahorafechamento >= CURRENT_DATE - INTERVAL '90 days'",
       "output_file": "itemvenda_{YYYYMMDD}.csv",
       "ativo": true
     },
@@ -40,9 +40,9 @@
       "job_id": "erp_fato_movimentacaoestoque",
       "nome": "movimentacaoestoque",
       "tipo": "FATO",
-      "descricao": "Movimentacoes de estoque com custo",
+      "descricao": "Movimentações de estoque com custo (colunas mínimas necessárias)",
       "coluna_data": "via JOIN com itemvenda/venda",
-      "sql": "SELECT DISTINCT me.* FROM movimentacaoestoque me JOIN itemvenda iv ON me.id = iv.movimentacaoestoqueid JOIN venda v ON iv.vendaid = v.id WHERE v.datahorafechamento >= CURRENT_DATE - INTERVAL '90 days'",
+      "sql": "SELECT DISTINCT me.id, me.custo, me.tipomovimentacaoestoqueid FROM movimentacaoestoque me JOIN itemvenda iv ON me.id = iv.movimentacaoestoqueid JOIN venda v ON iv.vendaid = v.id WHERE v.datahorafechamento >= CURRENT_DATE - INTERVAL '90 days'",
       "output_file": "movimentacaoestoque_{YYYYMMDD}.csv",
       "ativo": true
     },
@@ -60,9 +60,9 @@
       "job_id": "erp_fato_itemnotafiscal",
       "nome": "itemnotafiscal",
       "tipo": "FATO",
-      "descricao": "Itens das notas fiscais de compra",
+      "descricao": "Itens das notas fiscais de compra (colunas mínimas necessárias)",
       "coluna_data": "via JOIN com notafiscal",
-      "sql": "SELECT inf.* FROM itemnotafiscal inf JOIN notafiscal nf ON inf.notafiscalid = nf.id WHERE nf.datahoraemissao >= CURRENT_DATE - INTERVAL '90 days'",
+      "sql": "SELECT inf.notafiscalid, inf.embalagemid, inf.valortotal, inf.quantidade, inf.bonificacao FROM itemnotafiscal inf JOIN notafiscal nf ON inf.notafiscalid = nf.id WHERE nf.datahoraemissao >= CURRENT_DATE - INTERVAL '90 days'",
       "output_file": "itemnotafiscal_{YYYYMMDD}.csv",
       "ativo": true
     },
@@ -125,8 +125,8 @@
       "job_id": "erp_dim_fornecedor",
       "nome": "fornecedor",
       "tipo": "DIMENSAO",
-      "descricao": "Cadastro de fornecedores",
-      "sql": "SELECT * FROM fornecedor",
+      "descricao": "Cadastro de fornecedores (colunas mínimas necessárias)",
+      "sql": "SELECT id, pessoaid FROM fornecedor",
       "output_file": "fornecedor_{YYYYMMDD}.csv",
       "ativo": true
     },
@@ -161,9 +161,29 @@
       "job_id": "erp_dim_melhoroferta",
       "nome": "melhoroferta",
       "tipo": "DIMENSAO",
-      "descricao": "Melhores ofertas por embalagem",
-      "sql": "SELECT * FROM melhoroferta",
+      "descricao": "Melhores ofertas por embalagem (colunas mínimas necessárias)",
+      "sql": "SELECT embalagemid, cadernoofertaid, precounitariocomdesconto FROM melhoroferta",
       "output_file": "melhoroferta_{YYYYMMDD}.csv",
+      "ativo": true
+    },
+    {
+      "job_id": "erp_fato_orcamento",
+      "nome": "orcamento",
+      "tipo": "FATO",
+      "descricao": "Orçamentos vinculados à venda (colunas mínimas necessárias)",
+      "coluna_data": "via JOIN com venda",
+      "sql": "SELECT DISTINCT o.vendaid, o.usuarioid FROM orcamento o JOIN venda v ON o.vendaid = v.id WHERE v.datahorafechamento >= CURRENT_DATE - INTERVAL '90 days'",
+      "output_file": "orcamento_{YYYYMMDD}.csv",
+      "ativo": true
+    },
+    {
+      "job_id": "erp_fato_itemorcamento",
+      "nome": "itemorcamento",
+      "tipo": "FATO",
+      "descricao": "Itens de orçamento referenciados em itemvenda (colunas mínimas necessárias)",
+      "coluna_data": "via JOIN com itemvenda/venda",
+      "sql": "SELECT DISTINCT io.id, io.usuarioid FROM itemorcamento io JOIN itemvenda iv ON iv.itemorcamentoid = io.id JOIN venda v ON iv.vendaid = v.id WHERE v.datahorafechamento >= CURRENT_DATE - INTERVAL '90 days'",
+      "output_file": "itemorcamento_{YYYYMMDD}.csv",
       "ativo": true
     }
   ]
