@@ -14,144 +14,126 @@
           "nome": "Fato Venda",
           "descricao": "Carga de vendas (últimos 365 dias ou janela definida na query).",
           "ativo": true,
-          "horarios_cron": [
-            "10 3 * * *"
-          ]
+          "horarios_cron": ["10 3 * * *"]
         },
         {
           "job_id": "erp_fato_itemvenda",
           "nome": "Fato ItemVenda",
           "descricao": "Carga de itens de venda.",
           "ativo": true,
-          "horarios_cron": [
-            "20 3 * * *"
-          ]
+          "horarios_cron": ["20 3 * * *"]
+        },
+        {
+          "job_id": "erp_fato_orcamento",
+          "nome": "Fato Orcamento",
+          "descricao": "Carga de orçamentos vinculados às vendas.",
+          "ativo": true,
+          "horarios_cron": ["30 2 * * *"]
+        },
+        {
+          "job_id": "erp_fato_itemorcamento",
+          "nome": "Fato ItemOrcamento",
+          "descricao": "Carga de itens de orçamento referenciados nos itens de venda.",
+          "ativo": true,
+          "horarios_cron": ["0 2 * * *"]
         },
         {
           "job_id": "erp_fato_movimentacaoestoque",
           "nome": "Fato MovimentacaoEstoque",
           "descricao": "Carga de movimentações de estoque vinculadas às vendas.",
           "ativo": true,
-          "horarios_cron": [
-            "30 3 * * *"
-          ]
+          "horarios_cron": ["30 3 * * *"]
         },
         {
           "job_id": "erp_fato_notafiscal",
           "nome": "Fato NotaFiscal",
           "descricao": "Carga de notas fiscais de entrada (compras).",
           "ativo": true,
-          "horarios_cron": [
-            "40 3 * * *"
-          ]
+          "horarios_cron": ["40 3 * * *"]
         },
         {
           "job_id": "erp_fato_itemnotafiscal",
           "nome": "Fato ItemNotaFiscal",
           "descricao": "Carga de itens das notas fiscais.",
           "ativo": true,
-          "horarios_cron": [
-            "10 4 * * *"
-          ]
+          "horarios_cron": ["10 4 * * *"]
         },
         {
           "job_id": "erp_fato_estoque",
           "nome": "Snapshot Estoque",
           "descricao": "Snapshot diário do estoque por embalagem.",
           "ativo": true,
-          "horarios_cron": [
-            "20 4 * * *"
-          ]
+          "horarios_cron": ["20 4 * * *"]
         },
         {
           "job_id": "erp_dim_produto",
           "nome": "Dim Produto",
           "descricao": "Dimensão de produtos.",
           "ativo": true,
-          "horarios_cron": [
-            "30 4 * * *"
-          ]
+          "horarios_cron": ["30 4 * * *"]
         },
         {
           "job_id": "erp_dim_embalagem",
           "nome": "Dim Embalagem",
           "descricao": "Dimensão de embalagens (EANs).",
           "ativo": true,
-          "horarios_cron": [
-            "40 4 * * *"
-          ]
+          "horarios_cron": ["40 4 * * *"]
         },
         {
           "job_id": "erp_dim_classificacao",
           "nome": "Dim Classificacao",
           "descricao": "Árvore de classificação de produtos.",
           "ativo": true,
-          "horarios_cron": [
-            "10 5 * * *"
-          ]
+          "horarios_cron": ["10 5 * * *"]
         },
         {
           "job_id": "erp_dim_classificacaoproduto",
           "nome": "Bridge Produto x Classificacao",
           "descricao": "Relacionamento produto-classificação.",
           "ativo": true,
-          "horarios_cron": [
-            "20 5 * * *"
-          ]
+          "horarios_cron": ["20 5 * * *"]
         },
         {
           "job_id": "erp_dim_unidadenegocio",
           "nome": "Dim Unidade de Negocio",
           "descricao": "Cadastro de lojas/unidades.",
           "ativo": true,
-          "horarios_cron": [
-            "0 5 * * *"
-          ]
+          "horarios_cron": ["0 5 * * *"]
         },
         {
           "job_id": "erp_dim_fornecedor",
           "nome": "Dim Fornecedor",
           "descricao": "Cadastro de fornecedores.",
           "ativo": true,
-          "horarios_cron": [
-            "30 5 * * *"
-          ]
+          "horarios_cron": ["30 5 * * *"]
         },
         {
           "job_id": "erp_dim_pessoa",
           "nome": "Dim Pessoa",
           "descricao": "Cadastro de pessoas (vinculado a fornecedor).",
           "ativo": true,
-          "horarios_cron": [
-            "40 5 * * *"
-          ]
+          "horarios_cron": ["40 5 * * *"]
         },
         {
           "job_id": "erp_dim_cadernooferta",
           "nome": "Dim CadernoOferta",
           "descricao": "Cadastro de cadernos de oferta.",
           "ativo": true,
-          "horarios_cron": [
-            "50 3 * * *"
-          ]
+          "horarios_cron": ["50 3 * * *"]
         },
         {
           "job_id": "erp_dim_itemcadernooferta",
           "nome": "Dim ItemCadernoOferta",
           "descricao": "Itens dos cadernos (preços promocionais).",
           "ativo": true,
-          "horarios_cron": [
-            "0 3 * * *"
-          ]
+          "horarios_cron": ["0 3 * * *"]
         },
         {
           "job_id": "erp_dim_melhoroferta",
           "nome": "Dim MelhorOferta",
           "descricao": "Melhores ofertas por embalagem.",
           "ativo": true,
-          "horarios_cron": [
-            "0 4 * * *"
-          ]
+          "horarios_cron": ["0 4 * * *"]
         }
       ]
     }
