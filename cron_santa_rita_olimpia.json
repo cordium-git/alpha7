@@ -1,41 +1,127 @@
 {
   "scheduling_schema_version": 1,
   "default_timezone": "America/Sao_Paulo",
-  "descricao": "Horarios de execucao dos ETLs distribuídos do Pricing Hub por cliente e job (ordem ajustada por dependências).",
+  "descricao": "ETLs ERP Pricing Hub - somente minuto 0/30 (runner a cada 30min) + ordem ajustada por dependências.",
   "clientes": [
     {
       "cliente_id": "erp_pricinghub_full",
       "nome_exibicao": "ERP Principal - Pricing Hub",
       "ativo": true,
-      "observacao": "Agendamentos principais de carga ERP (fatos e dimensoes).",
+      "observacao": "Janela 02:00-05:00 com ticks 00/30; dependências separadas por tick.",
       "jobs": [
-        { "job_id": "erp_fato_venda",              "ativo": true, "horarios_cron": ["0 3 * * *"] },
-        { "job_id": "erp_fato_itemvenda",          "ativo": true, "horarios_cron": ["0 3 * * *"] },
-        { "job_id": "erp_fato_movimentacaoestoque","ativo": true, "horarios_cron": ["0 3 * * *"] },
+        {
+          "job_id": "erp_fato_venda",
+          "nome": "Fato Venda",
+          "ativo": true,
+          "horarios_cron": ["0 2 * * *"]
+        },
+        {
+          "job_id": "erp_fato_itemvenda",
+          "nome": "Fato ItemVenda",
+          "ativo": true,
+          "horarios_cron": ["30 2 * * *"]
+        },
 
-        { "job_id": "erp_fato_orcamento",          "ativo": true, "horarios_cron": ["0 3 * * *"] },
-        { "job_id": "erp_fato_itemorcamento",      "ativo": true, "horarios_cron": ["0 3 * * *"] },
+        {
+          "job_id": "erp_fato_movimentacaoestoque",
+          "nome": "Fato MovimentacaoEstoque",
+          "ativo": true,
+          "horarios_cron": ["0 3 * * *"]
+        },
+        {
+          "job_id": "erp_fato_orcamento",
+          "nome": "Fato Orcamento",
+          "ativo": true,
+          "horarios_cron": ["30 2 * * *"]
+        },
+        {
+          "job_id": "erp_fato_itemorcamento",
+          "nome": "Fato ItemOrcamento",
+          "ativo": true,
+          "horarios_cron": ["0 3 * * *"]
+        },
 
-        { "job_id": "erp_fato_notafiscal",         "ativo": true, "horarios_cron": ["0 3 * * *"] },
-        { "job_id": "erp_fato_itemnotafiscal",     "ativo": true, "horarios_cron": ["0 3 * * *"] },
+        {
+          "job_id": "erp_fato_notafiscal",
+          "nome": "Fato NotaFiscal",
+          "ativo": true,
+          "horarios_cron": ["30 3 * * *"]
+        },
+        {
+          "job_id": "erp_fato_itemnotafiscal",
+          "nome": "Fato ItemNotaFiscal",
+          "ativo": true,
+          "horarios_cron": ["0 4 * * *"]
+        },
 
-        { "job_id": "erp_dim_produto",             "ativo": true, "horarios_cron": ["0 3 * * *"] },
-        { "job_id": "erp_dim_embalagem",           "ativo": true, "horarios_cron": ["0 3 * * *"] },
+        {
+          "job_id": "erp_dim_produto",
+          "nome": "Dim Produto",
+          "ativo": true,
+          "horarios_cron": ["0 4 * * *"]
+        },
 
-        { "job_id": "erp_fato_estoque",            "ativo": true, "horarios_cron": ["0 3 * * *"] },
+        {
+          "job_id": "erp_dim_embalagem",
+          "nome": "Dim Embalagem",
+          "ativo": true,
+          "horarios_cron": ["30 4 * * *"]
+        },
+        {
+          "job_id": "erp_dim_pessoa",
+          "nome": "Dim Pessoa",
+          "ativo": true,
+          "horarios_cron": ["30 4 * * *"]
+        },
+        {
+          "job_id": "erp_dim_classificacao",
+          "nome": "Dim Classificacao",
+          "ativo": true,
+          "horarios_cron": ["30 4 * * *"]
+        },
+        {
+          "job_id": "erp_dim_cadernooferta",
+          "nome": "Dim CadernoOferta",
+          "ativo": true,
+          "horarios_cron": ["30 4 * * *"]
+        },
+        {
+          "job_id": "erp_dim_unidadenegocio",
+          "nome": "Dim UnidadeNegocio",
+          "ativo": true,
+          "horarios_cron": ["30 4 * * *"]
+        },
 
-        { "job_id": "erp_dim_classificacao",       "ativo": true, "horarios_cron": ["0 3 * * *"] },
-        { "job_id": "erp_dim_classificacaoproduto","ativo": true, "horarios_cron": ["0 3 * * *"] },
-
-        { "job_id": "erp_dim_unidadenegocio",      "ativo": true, "horarios_cron": ["0 3 * * *"] },
-
-        { "job_id": "erp_dim_pessoa",              "ativo": true, "horarios_cron": ["0 4 * * *"] },
-        { "job_id": "erp_dim_fornecedor",          "ativo": true, "horarios_cron": ["0 3 * * *"] },
-
-        { "job_id": "erp_dim_cadernooferta",       "ativo": true, "horarios_cron": ["0 3 * * *"] },
-        { "job_id": "erp_dim_itemcadernooferta",   "ativo": true, "horarios_cron": ["0 3 * * *"] },
-
-        { "job_id": "erp_dim_melhoroferta",        "ativo": true, "horarios_cron": ["0 3 * * *"] }
+        {
+          "job_id": "erp_dim_fornecedor",
+          "nome": "Dim Fornecedor",
+          "ativo": true,
+          "horarios_cron": ["0 5 * * *"]
+        },
+        {
+          "job_id": "erp_dim_classificacaoproduto",
+          "nome": "Bridge Produto x Classificacao",
+          "ativo": true,
+          "horarios_cron": ["0 5 * * *"]
+        },
+        {
+          "job_id": "erp_dim_itemcadernooferta",
+          "nome": "Dim ItemCadernoOferta",
+          "ativo": true,
+          "horarios_cron": ["0 5 * * *"]
+        },
+        {
+          "job_id": "erp_dim_melhoroferta",
+          "nome": "Dim MelhorOferta",
+          "ativo": true,
+          "horarios_cron": ["0 5 * * *"]
+        },
+        {
+          "job_id": "erp_fato_estoque",
+          "nome": "Snapshot Estoque",
+          "ativo": true,
+          "horarios_cron": ["0 5 * * *"]
+        }
       ]
     }
   ]
