@@ -13,7 +13,7 @@
           "job_id": "erp_fato_venda",
           "nome": "Fato Venda",
           "ativo": true,
-          "horarios_cron": ["0 2 * * *"]
+          "horarios_cron": ["30 1 * * *"]
         },
         {
           "job_id": "erp_fato_itemvenda",
@@ -26,7 +26,7 @@
           "job_id": "erp_fato_movimentacaoestoque",
           "nome": "Fato MovimentacaoEstoque",
           "ativo": true,
-          "horarios_cron": ["0 3 * * *"]
+          "horarios_cron": ["30 2 * * *"]
         },
         {
           "job_id": "erp_fato_orcamento",
@@ -38,7 +38,7 @@
           "job_id": "erp_fato_itemorcamento",
           "nome": "Fato ItemOrcamento",
           "ativo": true,
-          "horarios_cron": ["0 3 * * *"]
+          "horarios_cron": ["30 2 * * *"]
         },
 
         {
@@ -51,14 +51,14 @@
           "job_id": "erp_fato_itemnotafiscal",
           "nome": "Fato ItemNotaFiscal",
           "ativo": true,
-          "horarios_cron": ["0 4 * * *"]
+          "horarios_cron": ["30 3 * * *"]
         },
 
         {
           "job_id": "erp_dim_produto",
           "nome": "Dim Produto",
           "ativo": true,
-          "horarios_cron": ["0 4 * * *"]
+          "horarios_cron": ["30 4 * * *"]
         },
 
         {
@@ -96,31 +96,31 @@
           "job_id": "erp_dim_fornecedor",
           "nome": "Dim Fornecedor",
           "ativo": true,
-          "horarios_cron": ["0 5 * * *"]
+          "horarios_cron": ["30 5 * * *"]
         },
         {
           "job_id": "erp_dim_classificacaoproduto",
           "nome": "Bridge Produto x Classificacao",
           "ativo": true,
-          "horarios_cron": ["0 5 * * *"]
+          "horarios_cron": ["30 5 * * *"]
         },
         {
           "job_id": "erp_dim_itemcadernooferta",
           "nome": "Dim ItemCadernoOferta",
           "ativo": true,
-          "horarios_cron": ["0 5 * * *"]
+          "horarios_cron": ["30 5 * * *"]
         },
         {
           "job_id": "erp_dim_melhoroferta",
           "nome": "Dim MelhorOferta",
           "ativo": true,
-          "horarios_cron": ["0 5 * * *"]
+          "horarios_cron": ["30 5 * * *"]
         },
         {
           "job_id": "erp_fato_estoque",
           "nome": "Snapshot Estoque",
           "ativo": true,
-          "horarios_cron": ["0 5 * * *"]
+          "horarios_cron": ["30 5 * * *"]
         }
       ]
     }
