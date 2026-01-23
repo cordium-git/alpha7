@@ -1,0 +1,781 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dossiê Astral Completo: André</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,400;1,600&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --gold: #d4af37;
+            --gold-light: #f3e5ab;
+            --bg-dark: #0a0a0c;
+            --bg-card: #141418;
+            --text-main: #e0e0e0;
+            --text-muted: #a0a0a0;
+        }
+
+        body {
+            background-color: var(--bg-dark);
+            color: var(--text-main);
+            font-family: 'Inter', sans-serif;
+            background-image: 
+                radial-gradient(circle at 15% 50%, rgba(212, 175, 55, 0.05) 0%, transparent 25%),
+                radial-gradient(circle at 85% 30%, rgba(80, 80, 150, 0.08) 0%, transparent 30%);
+            line-height: 1.8;
+        }
+
+        h1, h2, h3, h4, h5 {
+            font-family: 'Cinzel', serif;
+            color: var(--gold);
+        }
+
+        .serif-text {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.1rem;
+        }
+
+        .drop-cap::first-letter {
+            font-family: 'Cinzel', serif;
+            font-size: 3.5rem;
+            float: left;
+            margin-right: 0.5rem;
+            line-height: 0.8;
+            color: var(--gold);
+        }
+
+        /* Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: var(--bg-dark);
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #333;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--gold);
+        }
+
+        /* Glass Cards with improved readability for long text */
+        .glass-card {
+            background: rgba(20, 20, 24, 0.85); /* More opaque for readability */
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(212, 175, 55, 0.15);
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.5);
+        }
+
+        .glyph {
+            font-family: 'Segoe UI Symbol', 'Noto Sans Symbols', sans-serif;
+            font-weight: normal;
+        }
+
+        .section-divider {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 4rem 0;
+            opacity: 0.6;
+        }
+        .section-divider::before, .section-divider::after {
+            content: "";
+            flex: 1;
+            border-bottom: 1px solid var(--gold);
+            margin: 0 1rem;
+        }
+
+        .subsection-title {
+            border-left: 3px solid var(--gold);
+            padding-left: 1rem;
+            margin-bottom: 1rem;
+            margin-top: 2rem;
+            color: var(--gold-light);
+            font-family: 'Inter', sans-serif;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            font-size: 0.9rem;
+            font-weight: bold;
+        }
+
+        .anaretic {
+            color: #ff4757;
+            text-shadow: 0 0 5px rgba(255, 71, 87, 0.4);
+            font-weight: bold;
+        }
+        
+        .highlight-box {
+            background: rgba(255, 255, 255, 0.03);
+            border-left: 2px solid var(--gold);
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+            border-radius: 0 0.5rem 0.5rem 0;
+        }
+
+        strong {
+            color: white;
+        }
+    </style>
+</head>
+<body class="antialiased min-h-screen pb-20">
+
+    <!-- Header / Cover -->
+    <header class="min-h-[90vh] flex flex-col justify-center items-center text-center px-4 relative overflow-hidden">
+        <div class="absolute inset-0 z-0 opacity-20" style="background-image: url('https://www.transparenttextures.com/patterns/stardust.png');"></div>
+        
+        <div class="z-10 animate-fade-in-up max-w-4xl">
+            <div class="inline-block border border-[var(--gold)] p-2 mb-8 rounded-full">
+                <span class="text-[var(--gold)] text-xs tracking-[0.3em] uppercase px-6 font-bold">Relatório Integral</span>
+            </div>
+            <h1 class="text-6xl md:text-8xl mb-6 font-bold bg-clip-text text-transparent bg-gradient-to-r from-[var(--gold)] via-[#fff5d6] to-[var(--gold)]">
+                Maria Clara
+            </h1>
+            <p class="text-2xl serif-text text-gray-300 italic mb-12">Dossiê Analítico Integral (Natal + Previsão 2026)</p>
+            
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-6 text-sm text-[var(--text-muted)] border-t border-b border-white/10 py-8">
+                <div>
+                    <strong class="block text-[var(--gold)] mb-1 uppercase tracking-widest text-xs">Nascimento</strong>
+                    30 de Abril de 1996<br>13:00
+                </div>
+                <div>
+                    <strong class="block text-[var(--gold)] mb-1 uppercase tracking-widest text-xs">Local</strong>
+                    Olímpia, São Paulo<br>Brasil
+                </div>
+                <div>
+                    <strong class="block text-[var(--gold)] mb-1 uppercase tracking-widest text-xs">Processamento</strong>
+                    15 de Janeiro de 2026
+                </div>
+                <div>
+                    <strong class="block text-[var(--gold)] mb-1 uppercase tracking-widest text-xs">Ref</strong>
+                    Natal + 2026
+                </div>
+            </div>
+        </div>
+
+        <div class="absolute bottom-10 animate-bounce">
+            <svg class="w-6 h-6 text-[var(--gold)]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3"></path></svg>
+        </div>
+    </header>
+
+    <main class="container mx-auto px-4 max-w-4xl">
+
+        <!-- Bloco 0 -->
+        <section id="bloco-0" class="mb-24">
+            <div class="glass-card rounded-xl p-8 md:p-12 relative">
+                <div class="absolute top-0 right-0 p-6 opacity-10 text-9xl glyph">✦</div>
+                <h2 class="text-3xl mb-8 flex items-center gap-4">
+                    <span class="text-sm border border-[var(--gold)] rounded px-2 py-1 align-middle translate-y-[-2px] font-sans text-[var(--gold)]">BLOCO 0</span> 
+                    Precisão & Assunções
+                </h2>
+                
+                <div class="serif-text text-gray-300 space-y-6 text-justify">
+                    <p class="drop-cap">
+                        Para a elaboração deste dossiê técnico, foram aplicados rigorosos critérios de validação astronômica e metodologias de análise cruzada entre a Astrologia Clássica, a Psicologia Analítica (Junguiana) e a Numerologia Pitagórica. A integridade dos dados é a base de qualquer interpretação séria.
+                    </p>
+
+                    <div class="highlight-box">
+                        <h3 class="text-lg font-bold text-white mb-2 flex items-center gap-2">1. Nível de Precisão: <span class="text-green-400">ALTA</span></h3>
+                        <p>Os dados fornecidos (data, hora exata e local) conferem a este relatório um nível de precisão <strong>Alta</strong>. O horário "redondo" de 13:00 sugere um possível arredondamento por parte da certidão ou memória familiar, mas a geometria celeste para a latitude de Olímpia, SP, neste dia, mantém o Ascendente estável no signo de Leão dentro de uma janela de segurança confortável.</p>
+                        <p class="mt-4 text-sm text-[var(--text-muted)]"><strong class="text-[var(--gold)]">Margem de Erro do Ascendente:</strong> O signo de Leão ascendia no horizonte leste de Olímpia aproximadamente entre 11:30 e 14:00. Portanto, mesmo com uma variação de ±15 minutos no horário de nascimento, a estrutura fundamental do mapa (Ascendente Leão, Meio do Céu em Touro) permanece intacta, garantindo a validade da análise das Casas Astrológicas.</p>
+                    </div>
+
+                    <h3 class="subsection-title">2. Assunções Técnicas e Parâmetros</h3>
+                    <ul class="list-disc pl-5 space-y-2 text-sm text-[var(--text-muted)]">
+                        <li><strong>Sistema de Coordenadas:</strong> Geocêntrico.</li>
+                        <li><strong>Zodíaco:</strong> Tropical (alinhado aos equinócios, padrão ocidental).</li>
+                        <li><strong>Sistema de Domificação (Casas):</strong> Placidus. Este sistema foi escolhido por sua eficácia em análises psicológicas e evolutivas, mapeando a distribuição temporal da vida humana de forma orgânica para latitudes tropicais como a do Brasil.</li>
+                        <li><strong>Fuso Horário:</strong> UTC-3. Verificou-se que <strong>não havia Horário de Verão</strong> vigente em 30/04/1996 no estado de São Paulo. O ciclo de verão encerrou-se em fevereiro daquele ano, garantindo que o cálculo de 13:00 corresponda ao tempo civil padrão.</li>
+                        <li><strong>Orbes de Aspectos:</strong> Padrão (Conjunções/Oposições até 8°, Quadraturas/Trígonos até 6°, Sextis até 4°). Para luminares (Sol/Lua), permite-se uma tolerância de até 10°.</li>
+                    </ul>
+
+                    <div class="border border-red-900/50 bg-red-900/10 p-6 rounded-lg mt-8">
+                        <h3 class="text-lg font-bold text-red-400 mb-2 flex items-center gap-2">⚠ 3. A Questão de Marte (Ajuste Fino)</h3>
+                        <p class="mb-4">Uma análise crítica das efemérides de 1996 revela um ponto crucial para a sua interpretação. Marte estava em movimento rápido no final de Áries, aproximando-se de Touro. Dados astronômicos confirmam que Marte ingressou em Touro apenas no início de maio de 1996. Para o seu horário (13:00), Marte encontra-se nos <strong>graus anaréticos (finais) de Áries (28°–29°)</strong>.</p>
+                        <p><strong class="text-red-400">Implicação Técnica:</strong> Um planeta no último grau de um signo carrega uma energia de "urgência" e "crise". Analisaremos Marte como estando em sua regência máxima (Áries), mas com uma pressão evolutiva para a estabilização (Touro).</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Bloco 1 -->
+        <section id="bloco-1" class="mb-24">
+            <div class="section-divider"><span class="glyph text-3xl text-[var(--gold)]">☉</span></div>
+            <h2 class="text-4xl text-center mb-10">Bloco 1 — Resumo Executivo</h2>
+            
+            <div class="glass-card p-8 rounded-xl mb-8">
+                <p class="serif-text text-gray-300 text-lg mb-6">
+                    Este sumário condensa a complexidade das análises subsequentes em <em>insights</em> diretivos. André, você é um <strong>"Arquiteto Real"</strong>: alguém que combina a visão estética e estruturada de Touro com a necessidade de palco e liderança de Leão, tudo movido por uma turbina interna de alta voltagem (Marte/Saturno em Áries).
+                </p>
+                <div class="space-y-6">
+                    <div class="border-l-2 border-[var(--gold)] pl-4">
+                        <strong class="text-[var(--gold)] block mb-1">A Identidade Central (Sol em Touro + Ascendente Leão)</strong>
+                        <p class="text-sm text-gray-400">Você projeta uma imagem de autoridade, calor e confiança (Leão), mas sua essência opera em um ritmo mais lento, sensorial e focado na segurança material (Touro). O mundo o vê como um líder carismático; você se vê como um construtor que só quer paz e conforto.</p>
+                    </div>
+                    
+                    <div class="border-l-2 border-blue-400 pl-4">
+                        <strong class="text-blue-400 block mb-1">O Dilema da Cooperação (Lua em Libra)</strong>
+                        <p class="text-sm text-gray-400">Enquanto sua "casca" (Leão) e seu "núcleo" (Touro) são autossuficientes e teimosos, sua nutrição emocional depende de <strong>harmonia e parcerias</strong> (Lua em Libra). Você vive o conflito entre "fazer do meu jeito" e "não desagradar ninguém".</p>
+                    </div>
+
+                    <div class="border-l-2 border-red-500 pl-4">
+                        <strong class="text-red-500 block mb-1">O Motor de Alta Combustão (Stellium em Fogo)</strong>
+                        <p class="text-sm text-gray-400">Apesar de ser um Taurino (Terra), você possui Marte e Saturno em Áries. Isso cria uma contradição interna: uma parte de você quer estabilidade, mas outra parte carrega uma impaciência kármica e uma necessidade de autoafirmação agressiva. 2026 é o ano de resolver isso.</p>
+                    </div>
+
+                    <div class="border-l-2 border-green-500 pl-4">
+                        <strong class="text-green-500 block mb-1">A Mente Pragmática (Mercúrio em Touro)</strong>
+                        <p class="text-sm text-gray-400">Sua inteligência não é rápida ou volátil; é arquitetônica. Você retém o que aprende. Uma vez que uma decisão é tomada, é quase impossível movê-lo.</p>
+                    </div>
+
+                    <div class="border-l-2 border-pink-400 pl-4">
+                        <strong class="text-pink-400 block mb-1">Amor Cerebral (Vênus em Gêmeos)</strong>
+                        <p class="text-sm text-gray-400">No amor, você precisa de estímulo mental. A beleza física atrai seu Sol em Touro, mas o tédio intelectual mata seu desejo (Vênus em Gêmeos). Você precisa conversar para amar.</p>
+                    </div>
+
+                    <div class="bg-[var(--gold)]/10 p-4 rounded border border-[var(--gold)]/30">
+                        <strong class="text-[var(--gold)] block mb-1">O Retorno de Saturno (O Grande Evento de 2026)</strong>
+                        <p class="text-sm text-gray-300">Você está no epicentro do seu Retorno de Saturno (29-30 anos). É o fim oficial da sua "juventude astrológica". A vida está cobrando a conta de todas as escolhas feitas na última década. É um período de "crescer ou quebrar".</p>
+                    </div>
+
+                    <div class="border-l-2 border-purple-500 pl-4">
+                        <strong class="text-purple-500 block mb-1">Numerologia (Caminho 5 + Ano 8)</strong>
+                        <p class="text-sm text-gray-400">Sua alma busca liberdade e variedade (5), o que irrita seu Sol em Touro (que odeia mudança). Em 2026, você entra num Ano Pessoal 8: o ano do poder, dinheiro e justiça. A combinação Saturno + Ano 8 sugere a maior oportunidade de construção de patrimônio e carreira da sua vida até agora.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Bloco 2: Tabela -->
+        <section id="bloco-2" class="mb-24">
+            <h2 class="text-3xl mb-8 flex items-center gap-4">
+                <span class="text-sm border border-[var(--gold)] rounded px-2 py-1 align-middle translate-y-[-2px] font-sans text-[var(--gold)]">BLOCO 2</span> 
+                Tabela Técnica de Dados Natais
+            </h2>
+            <p class="text-gray-400 mb-6 text-sm italic">Esta tabela serve como o "código-fonte" da sua psique. Cada interpretação neste relatório é derivada matematicamente destas posições exatas.</p>
+            
+            <div class="overflow-x-auto rounded-xl border border-gray-800 shadow-2xl">
+                <table class="w-full text-left border-collapse min-w-[600px]">
+                    <thead class="bg-black text-[var(--gold)] text-xs uppercase tracking-wider font-bold">
+                        <tr>
+                            <th class="p-4 border-b border-gray-800">Planeta / Ponto</th>
+                            <th class="p-4 border-b border-gray-800">Signo</th>
+                            <th class="p-4 border-b border-gray-800">Grau</th>
+                            <th class="p-4 border-b border-gray-800">Casa (Placidus)</th>
+                            <th class="p-4 border-b border-gray-800">Elemento / Modalidade</th>
+                            <th class="p-4 border-b border-gray-800">Palavra-Chave Técnica</th>
+                        </tr>
+                    </thead>
+                    <tbody class="text-sm divide-y divide-gray-800 bg-[var(--bg-card)]">
+                        <tr class="hover:bg-white/5 transition">
+                            <td class="p-4 text-[var(--gold)] font-bold">Sol ☉</td>
+                            <td>Touro ♉</td>
+                            <td>10°</td>
+                            <td>Casa 9 (Topo)</td>
+                            <td class="text-green-400">Terra / Fixo</td>
+                            <td class="text-gray-400">Essência, Vitalidade, Propósito</td>
+                        </tr>
+                        <tr class="hover:bg-white/5 transition">
+                            <td class="p-4 text-gray-300 font-bold">Lua ☽</td>
+                            <td>Libra ♎</td>
+                            <td>18°</td>
+                            <td>Casa 3</td>
+                            <td class="text-blue-300">Ar / Cardinal</td>
+                            <td class="text-gray-400">Emoção, Inconsciente, Mãe</td>
+                        </tr>
+                        <tr class="hover:bg-white/5 transition bg-[var(--gold)]/5">
+                            <td class="p-4 text-[var(--gold)] font-bold">Ascendente (AC)</td>
+                            <td>Leão ♌</td>
+                            <td>19°</td>
+                            <td>Casa 1</td>
+                            <td class="text-red-400">Fogo / Fixo</td>
+                            <td class="text-gray-400">Identidade, Corpo Físico, Máscara</td>
+                        </tr>
+                        <tr class="hover:bg-white/5 transition">
+                            <td class="p-4 text-gray-400 font-bold">Mercúrio ☿</td>
+                            <td>Touro ♉</td>
+                            <td>08°</td>
+                            <td>Casa 9</td>
+                            <td class="text-green-400">Terra / Fixo</td>
+                            <td class="text-gray-400">Intelecto, Comunicação, Lógica</td>
+                        </tr>
+                        <tr class="hover:bg-white/5 transition">
+                            <td class="p-4 text-pink-300 font-bold">Vênus ♀</td>
+                            <td>Gêmeos ♊</td>
+                            <td>25°</td>
+                            <td>Casa 10/11</td>
+                            <td class="text-blue-300">Ar / Mutável</td>
+                            <td class="text-gray-400">Afeto, Valores, Pequena Sorte</td>
+                        </tr>
+                        <tr class="hover:bg-white/5 transition">
+                            <td class="p-4 text-red-500 font-bold">Marte ♂</td>
+                            <td>Áries ♈</td>
+                            <td><span class="anaretic">28°</span></td>
+                            <td>Casa 9</td>
+                            <td class="text-red-400">Fogo / Cardinal</td>
+                            <td class="text-gray-400">Ação, Desejo, Defesa, Corte</td>
+                        </tr>
+                        <tr class="hover:bg-white/5 transition">
+                            <td class="p-4 text-purple-300 font-bold">Júpiter ♃</td>
+                            <td>Capricórnio ♑</td>
+                            <td>18°</td>
+                            <td>Casa 5/6</td>
+                            <td class="text-green-400">Terra / Cardinal</td>
+                            <td class="text-gray-400">Expansão (em Queda)</td>
+                        </tr>
+                        <tr class="hover:bg-white/5 transition">
+                            <td class="p-4 text-gray-500 font-bold">Saturno ♄</td>
+                            <td>Áries ♈</td>
+                            <td>02°</td>
+                            <td>Casa 8/9</td>
+                            <td class="text-red-400">Fogo / Cardinal</td>
+                            <td class="text-gray-400">Estrutura, Limite, Karma (em Queda)</td>
+                        </tr>
+                        <tr class="hover:bg-white/5 transition">
+                            <td class="p-4 text-cyan-300 font-bold">Urano ♅</td>
+                            <td>Aquário ♒</td>
+                            <td>04°</td>
+                            <td>Casa 6</td>
+                            <td class="text-blue-300">Ar / Fixo</td>
+                            <td class="text-gray-400">Inovação, Caos, Liberdade (Domicílio)</td>
+                        </tr>
+                        <tr class="hover:bg-white/5 transition">
+                            <td class="p-4 text-blue-500 font-bold">Netuno ♆</td>
+                            <td>Capricórnio ♑</td>
+                            <td>27°</td>
+                            <td>Casa 5/6</td>
+                            <td class="text-green-400">Terra / Cardinal</td>
+                            <td class="text-gray-400">Ilusão, Sonho, Espiritualidade</td>
+                        </tr>
+                        <tr class="hover:bg-white/5 transition">
+                            <td class="p-4 text-purple-600 font-bold">Plutão ♇</td>
+                            <td>Sagitário ♐</td>
+                            <td>02°</td>
+                            <td>Casa 4</td>
+                            <td class="text-red-400">Fogo / Mutável</td>
+                            <td class="text-gray-400">Transformação, Poder, Sombra</td>
+                        </tr>
+                        <tr class="hover:bg-white/5 transition">
+                            <td class="p-4 text-white font-bold">Nodo Norte ☊</td>
+                            <td>Libra ♎</td>
+                            <td>18°</td>
+                            <td>Casa 3</td>
+                            <td class="text-blue-300">Ar / Cardinal</td>
+                            <td class="text-gray-400">Destino Evolutivo, Dharma</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <div class="p-4 bg-black/50 text-xs text-gray-500 border-t border-gray-800">
+                    <strong>Nota Técnica sobre Aspectos:</strong> Destaca-se a oposição exata entre o Sol (Touro) e a Lua/Quíron/Nodo Norte (Libra)? Não, eles estão em signos inconjuntos ou em trígono dissociado dependendo do grau exato, mas a <strong>Lua em Libra faz oposição a Saturno/Marte em Áries</strong> (amplo). Esta tensão Cardeal (Áries-Libra) é o eixo central de tensão no seu mapa.
+                </div>
+            </div>
+        </section>
+
+        <!-- Bloco 3: Matriz de Origem -->
+        <section id="bloco-3" class="mb-24">
+             <div class="section-divider"><span class="glyph text-3xl text-[var(--gold)]">△</span></div>
+             <h2 class="text-3xl mb-4 text-center">Bloco 3 — Matriz de Origem & Arquitetura do Ser</h2>
+             <p class="text-center text-gray-400 mb-12 max-w-2xl mx-auto">
+                 A "arquitetura do ser" não é sobre quem você <em>escolhe</em> ser, mas sobre como sua fábrica espiritual foi desenhada. Você é um edifício com fundações de pedra (Touro), fachada de ouro (Leão) e interiores arejados e artísticos (Libra).
+             </p>
+
+             <!-- 3.1 Tríade -->
+             <div class="mb-16">
+                 <h3 class="text-2xl mb-6 text-center text-white">3.1. A Tríade Primordial: Sol, Lua e Ascendente</h3>
+                 
+                 <!-- Sol -->
+                 <div class="glass-card p-8 rounded-xl mb-6 border-l-4 border-green-500">
+                    <div class="flex items-center gap-4 mb-4">
+                        <div class="text-4xl text-[var(--gold)] glyph">☉</div>
+                        <div>
+                            <h4 class="text-xl font-bold text-white">Sol em Touro na Casa 9: O Filósofo Pragmático</h4>
+                            <p class="text-xs text-green-400 uppercase tracking-widest">"Eu valorizo, logo existo."</p>
+                        </div>
+                    </div>
+                    <div class="text-gray-300 serif-text text-justify space-y-4">
+                        <p>O Sol na Casa 9 (a casa de Sagitário) em Touro é uma contradição fascinante. A Casa 9 busca expansão, viagens e Deus. Touro busca segurança, terra e matéria.</p>
+                        <p><strong>Mecanismo:</strong> Sua busca por sentido na vida não é abstrata. Você encontra "Deus" na beleza de uma catedral física, na qualidade de um tecido, no sabor de uma comida exótica. Sua espiritualidade é sensorial.</p>
+                        <p><strong>A Dinâmica:</strong> Você tende a ser dogmático. Touro é um signo fixo; na casa das crenças (9), isso sugere que, uma vez que você forma uma opinião sobre o mundo, é necessária uma força tectônica para mudá-la. Você é estável, leal e incrivelmente resistente.</p>
+                    </div>
+                 </div>
+
+                 <!-- Lua -->
+                 <div class="glass-card p-8 rounded-xl mb-6 border-l-4 border-blue-400">
+                    <div class="flex items-center gap-4 mb-4">
+                        <div class="text-4xl text-gray-300 glyph">☾</div>
+                        <div>
+                            <h4 class="text-xl font-bold text-white">Lua em Libra na Casa 3: O Diplomata Comunicador</h4>
+                            <p class="text-xs text-blue-300 uppercase tracking-widest">"Eu sinto quando harmonizo."</p>
+                        </div>
+                    </div>
+                    <div class="text-gray-300 serif-text text-justify space-y-4">
+                        <p>Enquanto seu Sol é teimoso, sua Lua (o mundo emocional) é adaptável. A Lua em Libra precisa desesperadamente de paz.</p>
+                        <p><strong>A Ferida Oculta:</strong> Você detesta conflito emocional direto. Com Sol em Touro e Ascendente Leão, você <em>parece</em> forte, mas a Lua em Libra o torna vulnerável à opinião alheia. Você pode concordar com coisas que não quer apenas para manter a "atmosfera agradável".</p>
+                        <p><strong>Casa 3:</strong> A posição na Casa 3 vincula suas emoções à comunicação e aos irmãos/vizinhos. Você processa sentimentos <em>falando</em>. Se não puder verbalizar e racionalizar o que sente, você somatiza. Sua segurança emocional vem de ser compreendido intelectualmente.</p>
+                    </div>
+                 </div>
+
+                 <!-- Ascendente -->
+                 <div class="glass-card p-8 rounded-xl mb-6 border-l-4 border-[var(--gold)]">
+                    <div class="flex items-center gap-4 mb-4">
+                        <div class="text-4xl text-[var(--gold)] glyph">AC</div>
+                        <div>
+                            <h4 class="text-xl font-bold text-white">Ascendente em Leão: A Coroa Visível</h4>
+                            <p class="text-xs text-[var(--gold)] uppercase tracking-widest">"O mundo é meu palco."</p>
+                        </div>
+                    </div>
+                    <div class="text-gray-300 serif-text text-justify space-y-4">
+                        <p>O Ascendente é a lente pela qual você vê a vida e a "capa" do seu livro.</p>
+                        <p><strong>A Máscara:</strong> Independentemente de como você se sente por dentro (indeciso, inseguro), você projeta confiança. As pessoas naturalmente olham para você quando você entra numa sala. Há um calor, uma generosidade e uma exigência de respeito na sua postura.</p>
+                        <p><strong>O Regente do Mapa:</strong> Como Leão é regido pelo Sol, e seu Sol está em Touro, sua "realeza" não é tirânica, é uma "realeza produtiva". Você lidera através da consistência e da resistência. Você é o rei que constrói o castelo, não apenas o que senta no trono.</p>
+                    </div>
+                 </div>
+             </div>
+
+             <!-- 3.2 Kármico -->
+             <div class="bg-gradient-to-br from-gray-900 to-black p-8 rounded-xl border border-gray-800">
+                <h3 class="text-2xl mb-6 text-white text-center">3.2. Os Destaques Kármicos (O Peso da Alma)</h3>
+                
+                <div class="grid md:grid-cols-2 gap-8 mb-8">
+                    <div>
+                        <h4 class="text-red-500 font-bold mb-2">Nodo Sul (Áries) ♈ — O Passado</h4>
+                        <p class="text-gray-400 text-sm text-justify">Você vem de experiências (vidas passadas ou infância) de extrema independência, talvez de guerra ou sobrevivência solitária (Áries). Seu instinto "default" é cuidar de si mesmo, agir por impulso e ver o outro como um competidor ou um obstáculo. O egoísmo é seu refúgio seguro.</p>
+                    </div>
+                    <div>
+                        <h4 class="text-blue-400 font-bold mb-2">Nodo Norte (Libra) ♎ — A Missão</h4>
+                        <p class="text-gray-400 text-sm text-justify">Sua missão nesta vida é aprender a <strong>Arte do Nós</strong>. Não é sobre se anular, mas sobre entender que você só alcançará seu potencial máximo através da cooperação, da parceria e da diplomacia. O universo colocará você repetidamente em situações onde você <em>não consegue</em> resolver o problema sozinho, forçando-o a pedir ajuda e negociar.</p>
+                    </div>
+                </div>
+
+                <div class="border-t border-gray-800 pt-6">
+                    <h4 class="text-white font-bold mb-2">Saturno e Marte em Áries: A Fúria Contida</h4>
+                    <p class="text-gray-400 text-sm text-justify mb-4">Esta é a configuração mais explosiva do seu mapa.</p>
+                    <ul class="list-disc pl-5 space-y-2 text-sm text-gray-400">
+                        <li><strong>Saturno em Queda:</strong> Saturno odeia estar em Áries. Saturno quer tempo; Áries quer "agora". Isso gera uma repressão da assertividade. Você pode ter medo de impor sua vontade (medo da rejeição da Lua em Libra) até o ponto em que explode (Marte em Áries).</li>
+                        <li><strong>O Retorno de Saturno (2025-2026):</strong> Discutiremos isso profundamente no Bloco 7, mas saiba: este posicionamento indica que sua verdadeira autoridade e capacidade de liderança só amadurecem após os 30 anos, depois que você aprende a domar sua impulsividade.</li>
+                    </ul>
+                </div>
+             </div>
+        </section>
+
+        <!-- Bloco 4: Interpretação Profunda -->
+        <section id="bloco-4" class="mb-24">
+            <h2 class="text-3xl mb-8 flex items-center gap-4">
+                <span class="text-sm border border-[var(--gold)] rounded px-2 py-1 align-middle translate-y-[-2px] font-sans text-[var(--gold)]">BLOCO 4</span> 
+                Interpretação Profunda por Camadas
+            </h2>
+            <p class="text-gray-400 mb-8">Nesta fase, dissecamos os mecanismos psicológicos que operam abaixo da superfície. Evitaremos generalizações; focaremos na engenharia planetária específica do seu mapa.</p>
+
+            <!-- 4.1 Mente -->
+            <div class="mb-12">
+                <h3 class="subsection-title">4.1. Mente e Processo Decisório (Mercúrio em Touro)</h3>
+                <div class="glass-card p-6 rounded-lg">
+                    <p class="mb-2 text-gray-300"><strong>Indicador:</strong> Mercúrio em Touro na Casa 9, aspectando Netuno/Urano.</p>
+                    <p class="mb-2 text-gray-300"><strong>Leitura Técnica:</strong> Mercúrio em Signo Fixo de Terra confere uma mente ruminante. Você não "capta no ar"; você mastiga a informação.</p>
+                    <p class="mb-2 text-gray-300"><strong>Psicologia:</strong> Você desconfia da rapidez. Para você, pensamento rápido é sinônimo de pensamento raso. Sua memória é excelente, especialmente para dados sensoriais e práticos.</p>
+                    <p class="mb-2 text-gray-300"><strong>Aplicação Prática:</strong> Em discussões, você ganha pelo cansaço e pela consistência, não pela velocidade argumentativa.</p>
+                    <p class="text-red-400"><strong>A Armadilha:</strong> A obstinação. Uma vez que uma ideia se cristaliza na sua mente (Touro), ela vira pedra. Você corre o risco de ignorar evidências novas só para não ter o trabalho de reformular sua opinião.</p>
+                </div>
+            </div>
+
+            <!-- 4.2 Desejo -->
+            <div class="mb-12">
+                <h3 class="subsection-title">4.2. A Dinâmica do Desejo (Vênus em Gêmeos + Marte em Áries)</h3>
+                <div class="glass-card p-6 rounded-lg border-r-4 border-pink-500">
+                    <p class="mb-4 text-gray-300 text-justify">Aqui reside um paradoxo sexual e afetivo importante.</p>
+                    
+                    <div class="grid md:grid-cols-2 gap-6">
+                        <div>
+                            <strong class="text-pink-400 block mb-1">Vênus em Gêmeos (O Que Você Valoriza)</strong>
+                            <p class="text-sm text-gray-400">Apesar de ser um Taurino (signo fiel e estável), sua Vênus está no signo da dualidade. Você se atrai pela inteligência, pelo humor e pela variedade. Um parceiro bonito, mas mudo ou monótono, não dura uma semana com você. Você precisa de "drinques mentais".</p>
+                        </div>
+                        <div>
+                            <strong class="text-red-500 block mb-1">Marte em Áries (Como Você Conquista)</strong>
+                            <p class="text-sm text-gray-400">Seu modo de agir é direto, caçador e visceral. Marte está em seu domicílio (Áries) e no grau anarético (29°), o que lhe dá uma energia sexual potente e urgente.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="mt-6 p-4 bg-white/5 rounded">
+                        <p class="text-gray-300"><strong>O Conflito:</strong> Vênus quer conversar e flertar levemente; Marte quer levar para a cama imediatamente. Vênus quer liberdade; Sol em Touro quer posse.</p>
+                        <p class="text-gray-300 mt-2"><strong>Síntese:</strong> Seus relacionamentos precisam ter uma base de amizade intelectual (Gêmeos) sólida para sustentar a intensidade física (Áries) e a necessidade de posse (Touro). O tédio é o inimigo mortal das suas relações.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 4.3 Sombra -->
+            <div class="mb-12">
+                <h3 class="subsection-title">4.3. A Sombra e o Poder (Plutão na Casa 4)</h3>
+                <div class="glass-card p-6 rounded-lg border-l-4 border-purple-800">
+                    <p class="mb-2 text-gray-300"><strong>Indicador:</strong> Plutão em Sagitário na cúspide da Casa 4 (Fundo do Céu).</p>
+                    <p class="mb-2 text-gray-300"><strong>Simbolismo:</strong> A Casa 4 representa o lar, a família de origem e o pai/mãe interior. Plutão é o deus do submundo.</p>
+                    <p class="mb-2 text-gray-300"><strong>Leitura:</strong> Isso sugere uma infância onde pode ter havido segredos, dinâmicas de poder intenso, ou uma figura parental dominadora/transformadora. O ambiente doméstico não foi "leve"; foi um lugar de intensidade emocional.</p>
+                    <p class="text-gray-300"><strong>Efeito no Adulto:</strong> Você tem uma necessidade compulsiva de controlar seu espaço privado. Sua casa é sua fortaleza. Você pode ter medo de ser "invadido" ou controlado na intimidade. A transformação da sua vida virá através da cura das raízes familiares e da construção de um lar que seja verdadeiramente seu.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Bloco 5: Áreas da Vida -->
+        <section id="bloco-5" class="mb-24">
+            <h2 class="text-3xl mb-8 flex items-center gap-4">
+                <span class="text-sm border border-[var(--gold)] rounded px-2 py-1 align-middle translate-y-[-2px] font-sans text-[var(--gold)]">BLOCO 5</span> 
+                Áreas da Vida (Obrigatórias)
+            </h2>
+            
+            <div class="space-y-8">
+                <!-- A) Amor -->
+                <div class="bg-[var(--bg-card)] p-6 rounded border border-gray-800">
+                    <h3 class="text-xl text-white font-bold mb-3">A) Amor & Relacionamentos</h3>
+                    <p class="text-gray-400 mb-2"><strong>Cenário:</strong> Descendente (Casa 7) em Aquário. Regente (Urano) na Casa 6.</p>
+                    <p class="text-gray-400 mb-2"><strong>Padrão:</strong> Você atrai parceiros não convencionais, inteligentes, talvez um pouco frios ou distantes emocionalmente (Aquário). O parceiro "padrão" ou carente demais o sufoca.</p>
+                    <p class="text-gray-400 mb-2"><strong>Tensão:</strong> Sol em Touro quer fusão e toque; Descendente em Aquário quer espaço e liberdade. O equilíbrio ideal é o modelo "juntos, mas independentes". Cada um com seus hobbies, seus amigos.</p>
+                    <p class="text-gray-400"><strong>Previsão:</strong> Com Plutão entrando em Aquário (sua Casa 7) em 2025/2026, seus relacionamentos passarão por uma metamorfose total. Relações superficiais não sobreviverão. É a era da verdade nua e crua no amor.</p>
+                </div>
+
+                <!-- B) Carreira -->
+                <div class="bg-[var(--bg-card)] p-6 rounded border border-gray-800">
+                    <h3 class="text-xl text-white font-bold mb-3">B) Carreira & Vocação</h3>
+                    <p class="text-gray-400 mb-2"><strong>Indicadores:</strong> Meio do Céu (MC) em Touro. Vênus (regente do MC) em Gêmeos na Casa 10/11.</p>
+                    <p class="text-gray-400 mb-2"><strong>Vocação:</strong> O MC em Touro favorece carreiras sólidas, ligadas a recursos, finanças, construção, terra, beleza ou comida. Vênus em Gêmeos adiciona o elemento de comunicação e comércio.</p>
+                    <p class="text-gray-400 mb-2"><strong>Caminhos:</strong> Gestão financeira, Arquitetura, Direito (pela Lua em Libra), Marketing de produtos de luxo, Agronegócio.</p>
+                    <p class="text-gray-400"><strong>Estilo:</strong> Você trabalha para construir patrimônio, não pela glória efêmera. Sua reputação é de alguém confiável e consistente.</p>
+                </div>
+
+                <!-- C) Dinheiro -->
+                <div class="bg-[var(--bg-card)] p-6 rounded border border-gray-800">
+                    <h3 class="text-xl text-white font-bold mb-3">C) Dinheiro & Recursos</h3>
+                    <p class="text-gray-400 mb-2"><strong>Indicadores:</strong> Casa 2 em Virgem (analítica). Lua/Nodo Norte na Casa 3 (ou 2, dependendo da latitude exata).</p>
+                    <p class="text-gray-400 mb-2"><strong>Mecanismo:</strong> Você é, ou deveria ser, meticuloso com dinheiro (Virgem na 2). Você tem medo da escassez.</p>
+                    <p class="text-gray-400"><strong>Armadilha:</strong> Júpiter em Capricórnio (queda) sugere que o dinheiro vem do trabalho duro e da disciplina, não de "sorte" ou jogos de azar. Esquemas de enriquecimento rápido são perigosos para você. Sua riqueza é construída tijolo por tijolo.</p>
+                </div>
+
+                <!-- D) Saúde -->
+                <div class="bg-[var(--bg-card)] p-6 rounded border border-gray-800">
+                    <h3 class="text-xl text-white font-bold mb-3">D) Saúde & Energia Vital</h3>
+                    <p class="text-gray-400 mb-2"><strong>Indicadores:</strong> Sol em Touro, Ascendente Leão, Casa 6 em Capricórnio.</p>
+                    <p class="text-gray-400 mb-2"><strong>Pontos Fracos:</strong> Garganta/Tireoide (Touro), Coração/Coluna (Leão), Joelhos/Dentes/Pele (Capricórnio na 6).</p>
+                    <p class="text-gray-400 mb-2"><strong>Rotina:</strong> A Casa 6 em Capricórnio exige rotina espartana. Se você não tiver horários para comer e dormir, seu corpo colapsa.</p>
+                    <p class="text-gray-400"><strong>Alerta:</strong> Marte em Áries dá muita energia, mas Saturno reprime. Isso pode gerar tensão muscular crônica e inflamações. Atividade física intensa é prescrição médica para sua psique, não opcional.</p>
+                </div>
+
+                <!-- E) Espiritualidade -->
+                <div class="bg-[var(--bg-card)] p-6 rounded border border-gray-800">
+                    <h3 class="text-xl text-white font-bold mb-3">E) Espiritualidade & Intuição</h3>
+                    <p class="text-gray-400 mb-2"><strong>Indicadores:</strong> Netuno em Capricórnio, Sol na Casa 9.</p>
+                    <p class="text-gray-400"><strong>Estilo:</strong> Espiritualidade "Pé no Chão". Você desconfia de gurus e misticismo vago. Para você acreditar, precisa ver o resultado prático na vida da pessoa. A natureza é seu templo.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Bloco 6: Numerologia -->
+        <section id="bloco-6" class="mb-24 py-12 border-y border-gray-800">
+            <h2 class="text-3xl text-center mb-6 text-[var(--gold)]">Bloco 6 — Numerologia Pitagórica & Ciclos</h2>
+            <p class="text-center text-gray-500 mb-10">A Numerologia oferece uma segunda camada de verificação, operando com a vibração matemática do seu nascimento.</p>
+
+            <div class="flex flex-col md:flex-row gap-8 justify-center items-stretch">
+                <!-- Caminho 5 -->
+                <div class="flex-1 glass-card p-8 rounded-xl text-center">
+                    <h3 class="text-[var(--gold)] font-bold uppercase tracking-wider mb-4">6.1 Caminho de Vida (Life Path)</h3>
+                    <div class="text-6xl font-bold text-white mb-4">5</div>
+                    <div class="text-sm text-gray-400 space-y-2 text-justify">
+                        <p><strong>Cálculo:</strong> 30 + 04 + 1996. (3+0=3) + (4) + (1+9+9+6=25 -> 7). 3 + 4 + 7 = 14 -> 1 + 4 = <strong>5</strong>.</p>
+                        <p><strong>Arquétipo:</strong> O Viajante, O Agente de Mudança, O Libertário.</p>
+                        <p><strong>A Grande Contradição:</strong> Aqui reside o conflito central da sua vida. Astrologia (Sol Touro) quer estabilidade. Numerologia (5) quer aventura.</p>
+                        <p><strong>Síntese:</strong> Você veio a esta vida para aprender a <em>lidar com a mudança</em>. Se você se prender demais (Touro), a vida (Vibração 5) criará o caos para libertá-lo. Você precisa de uma "estabilidade móvel".</p>
+                    </div>
+                </div>
+
+                <!-- Ano 8 -->
+                <div class="flex-1 glass-card p-8 rounded-xl text-center border-2 border-[var(--gold)]">
+                    <h3 class="text-[var(--gold)] font-bold uppercase tracking-wider mb-4">6.2 Ano Pessoal 2026</h3>
+                    <div class="text-6xl font-bold text-[var(--gold)] mb-4">8</div>
+                    <div class="text-sm text-gray-400 space-y-2 text-justify">
+                        <p><strong>Cálculo:</strong> Dia (30) + Mês (4) + Ano Universal (2026 -> 1). 3 + 4 + 1 = 8.</p>
+                        <p><strong>Vibração:</strong> Poder, Dinheiro, Justiça, Colheita, Carma Material.</p>
+                        <p><strong>Interpretação:</strong> 2026 é um <strong>Ano de Poder</strong>. É o oposto vibracional do Ano 7 (2025). O Ano 8 exige que você saia para o mundo e materialize suas ambições. A confluência do Ano 8 com o Retorno de Saturno torna 2026 o ano mais decisivo da sua vida adulta jovem. Não é hora de ser modesto.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Bloco 7: Previsão 2026 -->
+        <section id="bloco-7" class="mb-24">
+            <h2 class="text-3xl mb-8 flex items-center gap-4">
+                <span class="text-sm border border-[var(--gold)] rounded px-2 py-1 align-middle translate-y-[-2px] font-sans text-[var(--gold)]">BLOCO 7</span> 
+                Previsão Estratégica: O Retorno de Saturno & Trânsitos 2026
+            </h2>
+            <p class="text-gray-400 mb-8 italic">Astrologia não é destino selado; é previsão do tempo. Abaixo, a previsão meteorológica para sua navegação.</p>
+            
+            <div class="space-y-8">
+                <div class="highlight-box bg-red-900/10 border-red-500">
+                    <h3 class="text-xl text-red-500 font-bold mb-2">7.1. O Grande Evento: O Retorno de Saturno (2025–2026)</h3>
+                    <div class="text-gray-300 space-y-2 text-justify">
+                        <p>Você nasceu com Saturno em Áries. Atualmente (e em 2026), Saturno transita por Áries novamente, retornando ao ponto exato do seu nascimento.</p>
+                        <p><strong>O Que É:</strong> O rito de passagem astrológico para a idade adulta. O fim da "garantia de fábrica".</p>
+                        <p><strong>O Tema:</strong> Áries é identidade. Saturno é realidade. O universo está perguntando: "Quem é você de verdade, sem as máscaras que usou para agradar os pais ou a sociedade?"</p>
+                        <p><strong>Os Sintomas:</strong> Sensação de pressão, isolamento, questionamento de carreira. Estruturas que não são sólidas desmoronam agora.</p>
+                        <p><strong>A Oportunidade:</strong> Se você assumir a responsabilidade pela sua própria vida, Saturno lhe dará o presente da <strong>Autoridade</strong>. Você sairá de 2026 mais maduro, focado e respeitado do que nunca.</p>
+                    </div>
+                </div>
+
+                <div class="glass-card p-6 rounded-lg">
+                    <h3 class="text-lg text-blue-400 font-bold mb-2">7.2. Plutão em Aquário (A Transformação dos Relacionamentos)</h3>
+                    <p class="text-gray-400 text-justify">Plutão ingressou definitivamente em Aquário e transitará sua Casa 7 pelos próximos 20 anos. Impacto: Plutão destrói para reconstruir. Na Casa 7, ele transformará radicalmente como você se relaciona com o "Outro". Espere intensidade. Relações mornas serão pulverizadas. O objetivo é chegar a uma relação de profunda verdade.</p>
+                </div>
+
+                <div class="glass-card p-6 rounded-lg">
+                    <h3 class="text-lg text-cyan-400 font-bold mb-2">7.3. Urano em Gêmeos (A Revolução Mental)</h3>
+                    <p class="text-gray-400 text-justify">Urano entrará em Gêmeos (2025/2026) e se aproximará da sua Vênus natal. Efeito: Isso eletriza sua vida financeira e amorosa. O que era estável pode parecer tedioso. Cuidado com a impulsividade financeira.</p>
+                </div>
+
+                <div class="mt-12">
+                    <h3 class="subsection-title">7.4. Cronograma Tático para 2026</h3>
+                    <div class="relative border-l-2 border-gray-800 ml-4 space-y-10 py-4">
+                        
+                        <!-- Jan-Mar -->
+                        <div class="relative pl-8">
+                            <div class="absolute -left-[9px] top-0 w-4 h-4 rounded-full bg-red-500"></div>
+                            <h4 class="text-lg font-bold text-white">Janeiro - Março: Pressão Máxima</h4>
+                            <p class="text-sm text-gray-400 text-justify">Saturno e Netuno em Áries conjuntos no grau zero. Momento de confusão dissolvida pela realidade dura. Foco total no trabalho e saúde. Evite escapismo.</p>
+                        </div>
+
+                        <!-- Abril -->
+                        <div class="relative pl-8">
+                            <div class="absolute -left-[9px] top-0 w-4 h-4 rounded-full bg-[var(--gold)]"></div>
+                            <h4 class="text-lg font-bold text-[var(--gold)]">Abril: Eclipse Solar (Seu Aniversário)</h4>
+                            <p class="text-sm text-gray-400 text-justify">Um novo começo brutal. Marte (seu regente kármico) estará ativado. Excelente para iniciar projetos físicos ou de empreendedorismo.</p>
+                        </div>
+
+                        <!-- Mai-Jul -->
+                        <div class="relative pl-8">
+                            <div class="absolute -left-[9px] top-0 w-4 h-4 rounded-full bg-blue-500"></div>
+                            <h4 class="text-lg font-bold text-white">Maio - Julho: Proteção Invisível</h4>
+                            <p class="text-sm text-gray-400 text-justify">Júpiter em Câncer (exaltação) favorecendo sua Casa 12/1. Bom para terapia, retiros e curar a ferida familiar (Plutão casa 4).</p>
+                        </div>
+
+                        <!-- Ago-Dez -->
+                        <div class="relative pl-8">
+                            <div class="absolute -left-[9px] top-0 w-4 h-4 rounded-full bg-green-500"></div>
+                            <h4 class="text-lg font-bold text-white">Agosto - Dezembro: Consolidação</h4>
+                            <p class="text-sm text-gray-400 text-justify">O Ano Pessoal 8 entrega seus dividendos se você tiver feito o trabalho duro no primeiro semestre.</p>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Bloco 8: Síntese -->
+        <section id="bloco-8" class="mb-24">
+            <h2 class="text-3xl mb-8 flex items-center gap-4">
+                <span class="text-sm border border-[var(--gold)] rounded px-2 py-1 align-middle translate-y-[-2px] font-sans text-[var(--gold)]">BLOCO 8</span> 
+                Síntese Prática
+            </h2>
+
+            <div class="glass-card p-10 rounded-xl border border-[var(--gold)] text-center relative mb-12">
+                <div class="absolute inset-0 bg-gradient-to-b from-transparent to-black/80 rounded-xl"></div>
+                <div class="relative z-10">
+                    <h3 class="text-2xl mb-6 text-[var(--gold)] font-serif italic">"Você é um homem de terra e fogo, um construtor que sonha com a paz, mas carrega a guerra no bolso."</h3>
+                    <p class="text-gray-300 text-lg text-justify leading-relaxed">
+                        André, sua vida é uma tapeçaria complexa de estabilidade desejada e caos necessário. Sua alma escolheu o Caminho 5 (Mudança) para habitar um corpo Taurino (Permanência), garantindo que você nunca se acomode totalmente. Sua diplomacia (Libra) é sua ferramenta social, mas sua teimosia (Touro) é sua ferramenta de sobrevivência. Em 2026, sob o olhar severo de Saturno e a potência do Número 8, você é convocado a deixar de ser o "príncipe promissor" para se tornar o "rei realizador". A chave é parar de evitar o conflito necessário e usar sua força para construir uma vida que seja autenticamente sua, não uma colagem das expectativas alheias.
+                    </p>
+                </div>
+            </div>
+
+            <div class="grid md:grid-cols-2 gap-8 mb-12">
+                <div class="bg-green-900/10 border border-green-900/30 p-6 rounded-lg">
+                    <h4 class="text-green-400 uppercase tracking-widest text-sm mb-4 border-b border-green-400/30 pb-2">Top 5 Forças (Arsenal)</h4>
+                    <ul class="space-y-3 text-sm text-gray-400">
+                        <li><strong>Resistência Titânica (Sol+Saturno):</strong> Você aguenta cargas que quebrariam outros. Use isso na carreira.</li>
+                        <li><strong>Liderança Magnética (AC Leão):</strong> Use sua presença para abrir portas. Não se esconda nos bastidores.</li>
+                        <li><strong>Inteligência Estratégica (Mercúrio+Ano 8):</strong> Capacidade de planejar a longo prazo e executar sem falhas.</li>
+                        <li><strong>Charme Diplomático (Lua/Vênus):</strong> Você sabe vender ideias e pacificar ambientes.</li>
+                        <li><strong>Energia de Iniciativa (Marte Áries):</strong> Quando você supera a inércia, é um trator.</li>
+                    </ul>
+                </div>
+                <div class="bg-red-900/10 border border-red-900/30 p-6 rounded-lg">
+                    <h4 class="text-red-400 uppercase tracking-widest text-sm mb-4 border-b border-red-400/30 pb-2">Top 5 Desafios (Armadilhas)</h4>
+                    <ul class="space-y-3 text-sm text-gray-400">
+                        <li><strong>Acomodação Hedonista:</strong> O lado sombra de Touro é a preguiça. <em>Antídoto:</em> Disciplina física diária.</li>
+                        <li><strong>Medo de Desagradar (Lua Libra):</strong> Paralisa decisões. <em>Antídoto:</em> Aceite que o conflito é parte da verdade.</li>
+                        <li><strong>Repressão da Raiva:</strong> Saturno em Áries engole a raiva. <em>Antídoto:</em> Esportes de combate ou terapia.</li>
+                        <li><strong>Dispersão (Caminho 5):</strong> Começar muito, terminar pouco. <em>Antídoto:</em> Foco no Ano 8.</li>
+                        <li><strong>Rigidez Mental:</strong> Achar que seu jeito é o único. <em>Antídoto:</em> Ouvir ativamente o "Outro".</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="glass-card p-8 rounded-xl mb-12">
+                <h3 class="subsection-title mb-6">Manual de Uso 2026</h3>
+                <div class="grid md:grid-cols-3 gap-6 text-sm text-gray-300">
+                    <div>
+                        <strong class="text-[var(--gold)] block mb-1">Quando estiver bem:</strong>
+                        Invista, construa, lidere. Use o carisma de Leão.
+                    </div>
+                    <div>
+                        <strong class="text-[var(--gold)] block mb-1">Quando estiver no limite:</strong>
+                        Isole-se (Touro precisa de caverna), coma bem, durma. Não force a socialização (Libra).
+                    </div>
+                    <div>
+                        <strong class="text-[var(--gold)] block mb-1">Como decidir:</strong>
+                        Não decida na hora (impulsividade). Durma sobre o problema (Touro). Se a decisão persistir por 3 dias, é a correta.
+                    </div>
+                </div>
+            </div>
+
+            <div class="mb-12">
+                 <h3 class="subsection-title">Afirmações de Poder</h3>
+                 <div class="space-y-4 text-center italic text-gray-300 font-serif text-lg">
+                     <p>"Eu honro minha necessidade de tempo e estabilidade, mas abraço a mudança como evolução."</p>
+                     <p>"Minha autoridade vem de quem eu sou, não de quem eu agrado."</p>
+                     <p>"Eu construo impérios sólidos com integridade e paciência."</p>
+                     <p>"É seguro expressar minha vontade e meus limites."</p>
+                 </div>
+            </div>
+
+            <div class="text-justify text-gray-400 text-sm border-t border-gray-800 pt-8">
+                <strong class="text-white block mb-2">Encerramento Ético</strong>
+                Este relatório é uma ferramenta de navegação baseada em cálculos milenares e interpretação arquetípica. Ele descreve as correntes e os ventos, mas você é o capitão do barco. Nenhuma configuração planetária, por mais tensa que seja (como o Retorno de Saturno), é maior que a consciência humana e o livre-arbítrio. Use este conhecimento para agir, não para se justificar.
+            </div>
+        </section>
+
+        <!-- Footer -->
+        <footer class="text-center text-xs text-gray-600 border-t border-gray-900 pt-10 pb-20 break-words">
+            <p class="mb-4 font-bold text-gray-500">Dossiê Finalizado.</p>
+            <div class="max-w-2xl mx-auto space-y-1">
+                <p>Referências citadas:</p>
+                <p>Ascendant Sign Calculator - BirthChart.net</p>
+                <p>Rising Sign Calculator – Ascendant Calculator - AstroSage</p>
+                <p>Astrology Birth Chart Calculator - DailyOM</p>
+                <p>Saturn Return in Aries: A Threshold Moment for 1996–1999 Births | Cosmos Within</p>
+                <p>North Node in Libra: Understand Your Soul Purpose & Life Path - Bonnie Sorsby</p>
+                <p>Life Path Number 5: Numerology, Meaning, and Compatibility - Astrala</p>
+                <p>Pluto in Aquarius through the Houses - Jessica Davidson</p>
+            </div>
+            <div class="mt-8 opacity-30 text-[var(--gold)] text-2xl">
+                <span>✦</span>
+            </div>
+        </footer>
+
+    </main>
+
+    <script>
+        // Simple entry animation
+        document.addEventListener('DOMContentLoaded', () => {
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('opacity-100', 'translate-y-0');
+                        entry.target.classList.remove('opacity-0', 'translate-y-10');
+                    }
+                });
+            }, { threshold: 0.05 });
+
+            document.querySelectorAll('section').forEach(section => {
+                section.classList.add('transition', 'duration-1000', 'opacity-0', 'translate-y-10');
+                observer.observe(section);
+            });
+        });
+    </script>
+</body>
+</html>
