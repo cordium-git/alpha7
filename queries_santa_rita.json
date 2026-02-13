@@ -185,6 +185,15 @@
       "sql": "SELECT DISTINCT io.id, io.usuarioid FROM itemorcamento io JOIN itemvenda iv ON iv.itemorcamentoid = io.id JOIN venda v ON iv.vendaid = v.id WHERE v.datahorafechamento >= CURRENT_DATE - INTERVAL '120 days'",
       "output_file": "itemorcamento_{YYYYMMDD}.csv",
       "ativo": true
+    },
+    {
+      "job_id": "erp_dim_usuario",
+      "nome": "usuario",
+      "tipo": "DIMENSAO",
+      "descricao": "Cadastro de usuarios (vinculado a fornecedor)",
+      "sql": "SELECT * FROM usuario",
+      "output_file": "pessoa_{YYYYMMDD}.csv",
+      "ativo": true
     }
   ]
 }
