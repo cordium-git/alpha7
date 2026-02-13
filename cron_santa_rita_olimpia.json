@@ -121,6 +121,12 @@
           "nome": "Snapshot Estoque",
           "ativo": true,
           "horarios_cron": ["30 5 * * *"]
+        },
+        {
+          "job_id": "erp_dim_usuario",
+          "nome": "Snapshot Usuario",
+          "ativo": true,
+          "horarios_cron": ["30 5 * * *"]
         }
       ]
     }
